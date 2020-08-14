@@ -4,19 +4,19 @@
   import LoadSections from '@/mixins/load-sections'
 
   export default {
-    name: 'Portfolio',
-    metaInfo: { title: 'Portfolio' },
+    name: 'Portfolio-detail',
+    metaInfo: { title: 'Portfolio Detail' },
     extends: View,
     mixins: [
       LoadSections([
-        'portfolio'
+        'portfolio-detail'
       ]),
     ],
     props: {
       id: {
         type: String,
-        default: 'portfolio',
+        default: 'portfolio-detail',
       },
-    },
+    }
   }
 </script>

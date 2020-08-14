@@ -24,6 +24,14 @@ const router = new Router({
           component: () => import('@/views/home/Index.vue'),
         },
         {
+          path: 'portfolio/:id',
+          name: 'Portfolio-detail',
+          component: () => import('@/views/portfolio/detail.vue'),
+          //component: () => import('@/views/sections/PortfolioDetail.vue'),
+          props: true,
+          meta: { src: require('@/assets/portfolio.png') },
+        },
+        {
           path: 'portfolio',
           name: 'Portfolio',
           component: () => import('@/views/portfolio/Index.vue'),

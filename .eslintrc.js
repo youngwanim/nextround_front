@@ -7,7 +7,7 @@ module.exports = {
 
   extends: 'vuetify',
 
-  parserOptions: {
+  parser Options: {
     parser: 'babel-eslint',
   },
 

@@ -11,8 +11,14 @@ export default {
     return {
       'content-type': 'Application/json',
       'authorization': 'bearer ' + VueCookies.get('token'),
-      'open-id': VueCookies.get('openid'),
-      'os-type': '2'
+      'open-id': VueCookies.get('openid')
+    }
+  },
+  formDataHeader() {
+    return {
+      'content-type': 'multipart/form-data',
+      'authorization': 'bearer ' + VueCookies.get('token'),
+      'open-id': VueCookies.get('openid')
     }
   },
   async_call(api, param, replace_obj = null) {
@@ -43,9 +49,9 @@ export default {
       }
     })
   },
-  async_call_callback(api, param, replace_obj = null, cb_res = null, cb_error = null) {
+  async_call_callback(api, param, replace_obj = null, cb_res = null, cb_error = null, form_data = null) {
     let origin_url = config[api].url,
-      vue = new Vue()
+      header = null
 
     if (replace_obj !== null) {
       for (let key in replace_obj) {
@@ -55,7 +61,7 @@ export default {
     return axios({
       method: config[api].method,
       url: origin_url,
-      headers: this.apiHeader(),
+      headers: (form_data ? this.formDataHeader() : this.apiHeader()),
       data: param || {}
     }).then((result) => {
       if (cb_res) {
