@@ -2,7 +2,11 @@
   <!-- <v-row justify="space-around">
     <v-col cols="12"> -->
     <v-col
+      v-masonry-tile
+      class="item"
       cols="12"
+      xs="12"
+      sm="12"
       md="6"
       lg="6"
       xl="6">
@@ -18,7 +22,7 @@
           >
             <v-col
               v-if="ifImgColAvailable"
-              class="item"
+
               cols="12"
               xs="12"
               sm="6"
@@ -55,7 +59,7 @@
               </v-card>
             </v-col>
             <v-col
-              class="item"
+
               cols="12"
               xs="12"
               sm="6"
@@ -73,7 +77,7 @@
                   :justify="`center`"
                   class="font-weight-black grey--text pa-2 fill-height">
                   <!-- <v-col cols="12"> -->
-                    <span :class="`text-h3 font-weight-black`">{{title}}</span>
+                    <span :class="`px-4 text-h4 font-weight-black`">{{title}}</span>
                   <!-- </v-col> -->
                 </v-row>
                 <v-card-title v-if="sub_title && sub_title.length > 0">

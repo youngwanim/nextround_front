@@ -209,10 +209,10 @@
         :loading="btn_el2_register"
         @click="validate"
       >
-        계속
+        등록
       </v-btn>
       <v-btn @click="e1=1" text>돌아가기</v-btn>
-      <v-btn text>취소</v-btn>
+      <!-- <v-btn text>취소</v-btn> -->
 
     </v-stepper-content>
     <v-stepper-step step="3">
@@ -286,6 +286,7 @@
               </v-btn>
               <v-btn
                 color="primary"
+                :to="`/`"
               >
                 다음에
               </v-btn>
@@ -294,14 +295,14 @@
         </v-container>
       </v-card>
 
-      <v-btn
+      <!-- <v-btn
         color="primary"
         :to="`/`"
       >
         등록완료
       </v-btn>
 
-      <v-btn text>나중에</v-btn>
+      <v-btn text>나중에</v-btn> -->
     </v-stepper-content>
 
   </v-stepper>
@@ -327,14 +328,14 @@
         file_business_card: null,
         accountInfo: {
           common: {
-            id: 'testid_',
-            password: '2fjsTlqkf!',
-            repassword: '2fjsTlqkf!',
+            id: 'test_id',
+            password: 'n0tsoGoodpass!',
+            repassword: 'n0tsoGoodpass!',
             user_type: 2,
-            name: 'test_name_',
+            name: 'test_name',
             mdn: '01011112222',
             email: 'test@test.com',
-            address: '서울특별시 서초구 우면동',
+            address: '서울특별시 영등포구 압구정동',
           },
           specific: {
             companyName: 'TEST co.ltd',

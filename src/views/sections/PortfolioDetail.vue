@@ -10,10 +10,14 @@
           width="100%"
         >
           <div
-            :class="$vuetify.breakpoint.smAndDown ? 'flex-column align-start' : 'align-center'"
+            :class="'align-center'"
             class="d-flex flex-wrap"
           >
-          <v-row justify="space-around">
+          <v-row
+            v-masonry="`containerID`"
+            justify="space-around"
+            item-selector=".item"
+          >
             <!-- <v-row justify="space-around">
               <v-col>
                 <v-card
@@ -109,32 +113,25 @@
               </template>
             </base-portfolio-detail-card>
             <base-portfolio-detail-card
-              :image_url="info.image_list"
-              :title="`오우 이런`"
-              :sub_title="`서브 타이틀 테스트`"
-              :description="`일단 이정도로만 넣어두겠다 담에 만나면 그리 안돼`"
-              :order_forward="false"
-            />
-            <base-portfolio-detail-card
               :image_url="info.product_image"
               :title="info.product_title"
               :sub_title="``"
               :description="info.product_introduce"
-              :order_forward="true"
+              :order_forward="false"
             />
             <base-portfolio-detail-card
               :image_url="info.ceo_image"
               :title="`CEO`"
               :sub_title="info.ceo"
               :description="info.ceo_introduce"
-              :order_forward="false"
+              :order_forward="true"
             />
             <base-portfolio-detail-card
               :image_url="info.team_image"
               :title="`팀 소개`"
               :sub_title="info.team_title"
               :description="info.team_introduce"
-              :order_forward="true"
+              :order_forward="false"
             />
             <base-portfolio-detail-card
               :title="`IR 다운로드`"
@@ -211,7 +208,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-
+        this.$redrawVueMasonry('containerID')
       })
     },
     computed: {
