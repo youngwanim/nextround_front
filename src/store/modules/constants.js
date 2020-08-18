@@ -40,7 +40,7 @@ export const portfolio_detail_sample = [
                   'https://fungilab.com/wp-content/uploads/2017/02/viscolead-ONE-main-img-prod.jpg',
                   'https://fungilab.com/wp-content/uploads/2017/07/Fungilab-Beaker-prev.jpg'],
     product_title: 'The one, the only...',
-    product_image: 'https://cdn11.bigcommerce.com/s-tpllrvymx2/images/stencil/2048x2048/products/2898/1551/Eco-Tote-Bag-Small-Sample__45581.1532622391.jpg',
+    product_image: ['https://cdn11.bigcommerce.com/s-tpllrvymx2/images/stencil/2048x2048/products/2898/1551/Eco-Tote-Bag-Small-Sample__45581.1532622391.jpg'],
     product_introduce: 'Beaker inox support for 8L THERMOVISC B100F8TFT B100F8TFT-US THERMOVISC B100F8-30TFT/ B100F8-30TFT-US',
     team_title: '애자일로 고통받는 전문가 집단',
     team_image: 'https://www.netclipart.com/pp/m/26-261864_people-clipart-large-group-small-sample-of-people.png',

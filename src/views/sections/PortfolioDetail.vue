@@ -14,7 +14,6 @@
             class="d-flex flex-wrap"
           >
           <v-row justify="space-around">
-
             <!-- <v-row justify="space-around">
               <v-col>
                 <v-card
@@ -89,7 +88,7 @@
               </v-col>
             </v-row> -->
             <base-portfolio-detail-card
-              :image_url="info.image_url"
+              :image_url="info.image_list"
               :title="info.title"
               :sub_title="info.sub_title"
               :description="info.description"
@@ -110,20 +109,45 @@
               </template>
             </base-portfolio-detail-card>
             <base-portfolio-detail-card
-              :image_url="info.image_url"
+              :image_url="info.image_list"
               :title="`오우 이런`"
               :sub_title="`서브 타이틀 테스트`"
               :description="`일단 이정도로만 넣어두겠다 담에 만나면 그리 안돼`"
               :order_forward="false"
-            >
-            </base-portfolio-detail-card>
+            />
             <base-portfolio-detail-card
-              :image_url="info.ceo_image"
+              :image_url="info.product_image"
               :title="info.product_title"
-              :sub_title="`서브 타이틀 테스트`"
+              :sub_title="``"
               :description="info.product_introduce"
               :order_forward="true"
+            />
+            <base-portfolio-detail-card
+              :image_url="info.ceo_image"
+              :title="`CEO`"
+              :sub_title="info.ceo"
+              :description="info.ceo_introduce"
+              :order_forward="false"
+            />
+            <base-portfolio-detail-card
+              :image_url="info.team_image"
+              :title="`팀 소개`"
+              :sub_title="info.team_title"
+              :description="info.team_introduce"
+              :order_forward="true"
+            />
+            <base-portfolio-detail-card
+              :title="`IR 다운로드`"
+              :description="`보다 상세한 자료를 원하신다면, IR자료를 다운받아보세요!`"
+              :order_forward="true"
             >
+              <template #image_col>
+                <div class="text-center">
+                  <v-btn class="ma-2" tile outlined color="success">
+                    <v-icon left>mdi-file-download-outline</v-icon>IR자료 다운로드
+                  </v-btn>
+                </div>
+              </template>
             </base-portfolio-detail-card>
         </v-row>
           </div>

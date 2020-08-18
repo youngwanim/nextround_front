@@ -16,6 +16,7 @@
             :justify="`center`"
           >
             <v-col
+              v-if="ifImgColAvailable"
               class="item"
               cols="12"
               sm="12"
@@ -29,8 +30,27 @@
                 class="white grey--text"
                 flat
               >
-                <v-img :src="image_url" aspect-ratio="1">
+                <v-carousel
+                  v-if="checkIfArray"
+                  cycle
+                  height="100%"
+                  hide-delimiter-background
+                  show-arrows-on-hover
+                >
+                  <v-carousel-item
+                    v-for="(image, i) in image_url"
+                    :key="i"
+                  >
+                    <v-img :src="image" aspect-ratio="1" contain>
+                    </v-img>
+                  </v-carousel-item>
+                </v-carousel>
+                <v-img
+                  v-else-if="checkIfImage"
+                  :src="image_url" aspect-ratio="1" contain>
                 </v-img>
+                <slot name="image_col">
+                </slot>
               </v-card>
             </v-col>
             <v-col
@@ -50,15 +70,18 @@
                 <v-row
                   :align="`end`"
                   :justify="`center`"
-                  class="font-weight-black text-h2 grey--text pa-2 fill-height">
+                  class="font-weight-black grey--text pa-2 fill-height">
                   <!-- <v-col cols="12"> -->
-                    <span :class="`heading`">{{title}}</span>
+                    <span :class="`text-h3 font-weight-black`">{{title}}</span>
                   <!-- </v-col> -->
                 </v-row>
-                <v-card-title>
+                <v-card-title v-if="sub_title && sub_title.length > 0">
                   {{sub_title}}
                 </v-card-title>
-                <v-card-text>
+                <v-card-text
+                  :height="`170px`"
+                  :class="`overflow-y-auto`"
+                  v-if="description && description.length > 0">
                   {{description}}
                 </v-card-text>
                 <slot name="text_footer">
@@ -79,7 +102,7 @@
     inheritAttrs: false,
 
     props: {
-      image_url: String,
+      image_url: [Array, String],
       title: String,
       sub_title: String,
       description: String,
@@ -93,6 +116,28 @@
         } else {
           return 10
         }
+      },
+      ifImgColAvailable() {
+        if (this.$slots.image_col) {
+          return true
+        }else if ((this.image_url && this.image_url.length > 0)
+          || this.checkIfArray){
+            return true
+        }
+
+        return false
+      },
+      checkIfArray() {
+        if (this.image_url) {
+          return Array.isArray(this.image_url)
+        }
+        return false
+      },
+      checkIfImage() {
+        if (this.image_url && this.image_url.length > 0) {
+          return true
+        }
+        return false
       }
     },
     methods: {
