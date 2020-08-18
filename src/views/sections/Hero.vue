@@ -24,7 +24,7 @@
             class="d-flex flex-wrap"
           >
             <base-btn @click="showVideoModal = !showVideoModal">
-              Discover More
+              Introducing
             </base-btn>
             <base-video-dialog
               v-if="showVideoModal"
@@ -41,6 +41,7 @@
               class="pa-1"
               height="auto"
               text
+              :to="`portfolio`"
             >
               Get Started Now
             </base-btn>

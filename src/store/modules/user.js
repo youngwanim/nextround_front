@@ -2,6 +2,7 @@ import Vue from 'vue'
 import api from '@/api/api.js'
 import router from '@/router'
 import VueCookies from "vue-cookies"
+import st_config from '@/config/config.js'
 
 Vue.use(VueCookies)
 
@@ -103,6 +104,15 @@ const actions = {
   },
   signup(context, payload) {
     let vue = new Vue({})
+
+    //test for static page without api server operation
+    if (st_config.target_server === '') {
+      let result = {status: 200}
+
+      payload.cb_res(result)
+      return
+    }
+
     return api.async_call_callback('signup', payload.param, null,
       (result) => {
         console.log('response signup: ', result)

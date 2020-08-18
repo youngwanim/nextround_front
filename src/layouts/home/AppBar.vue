@@ -71,9 +71,9 @@
       items: [
         'Home',
         'Portfolio',
-        'About',
-        'Contact',
-        'Pro',
+        // 'About',
+        // 'Contact',
+        // 'Pro',
         'Signin',
       ],
     }),
