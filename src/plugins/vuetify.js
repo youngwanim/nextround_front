@@ -2,10 +2,15 @@
 
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
+import CustomIcon from '@/components/icons/nextround.vue'
 import {
   VCol,
   VRow,
 } from 'vuetify/lib'
+
+const MY_ICONS = {
+  nextround: './assets/frog.ico',
+}
 
 Vue.use(Vuetify, {
   components: {
@@ -24,6 +29,13 @@ export default new Vuetify({
         accent: '#204165',
       },
       dark: {},
+    },
+  },
+  icons: {
+    values: {
+      nextround: {
+        component: CustomIcon,
+      }
     },
   },
 })

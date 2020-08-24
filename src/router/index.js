@@ -38,6 +38,11 @@ const router = new Router({
           meta: { src: require('@/assets/portfolio.png') },
         },
         {
+          path: 'event',
+          name: 'Event',
+          component: () => import('@/views/event/Index.vue'),
+        },
+        {
           path: 'signin',
           name: 'Signin',
           component: () => import('@/views/signin/Index.vue'),

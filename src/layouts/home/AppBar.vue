@@ -71,6 +71,7 @@
       items: [
         'Home',
         'Portfolio',
+        'Event',
         // 'About',
         // 'Contact',
         // 'Pro',
