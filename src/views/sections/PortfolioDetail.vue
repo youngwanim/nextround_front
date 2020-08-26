@@ -113,6 +113,7 @@
               </template>
             </base-portfolio-detail-card>
             <base-portfolio-detail-card
+              v-if="get_user_type <= info.product_auth_type"
               :image_url="info.product_image"
               :title="info.product_title"
               :sub_title="``"
@@ -120,6 +121,7 @@
               :order_forward="false"
             />
             <base-portfolio-detail-card
+              v-if="get_user_type <= info.ceo_auth_type"
               :image_url="info.ceo_image"
               :title="`CEO`"
               :sub_title="info.ceo"
@@ -127,6 +129,7 @@
               :order_forward="true"
             />
             <base-portfolio-detail-card
+              v-if="get_user_type <= info.team_auth_type"
               :image_url="info.team_image"
               :title="`팀 소개`"
               :sub_title="info.team_title"
@@ -134,6 +137,7 @@
               :order_forward="false"
             />
             <base-portfolio-detail-card
+              v-if="get_user_type <= info.ir_auth_type"
               :title="`IR 다운로드`"
               :description="`보다 상세한 자료를 원하신다면, IR자료를 다운받아보세요!`"
               :order_forward="true"
@@ -195,7 +199,7 @@
       console.log('prop ID input: ', this.$route.params.id)
       if (Object.keys(this.info).length === 0) {
         let payload = {
-          param: {id:this.id},
+          param: {id:this.$route.params.id},
           cb_res: (result) => {
             //this.info = this.get_portfolio_detail_on_interest
             this.info = result.data
@@ -213,7 +217,10 @@
     },
     computed: {
       ...mapGetters('portfolio', [
-        'get_portfolio_detail_on_interest'
+        'get_portfolio_detail'
+      ]),
+      ...mapGetters('user', [
+        'get_user_type'
       ]),
     },
     watch: {

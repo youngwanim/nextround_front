@@ -60,11 +60,18 @@
                       label="업체명 찾기"
                       placeholder="찾으시는 업체명을 입력해주세요"
                       prepend-icon="mdi-database-search"
-                      clear-icon
-                      clearable
+
                       @change="handleAutocomplete"
                       return-object
-                    ></v-autocomplete>
+                    >
+                      <template #append>
+                        <!-- <v-btn transparent @click="model=null,handleChipSelection()"> -->
+                          <v-icon @click="model=null,handleChipSelection()">
+                            mdi-close-circle
+                          </v-icon>
+                        <!-- </v-btn> -->
+                      </template>
+                    </v-autocomplete>
                     <!-- <v-autocomplete
                       v-model="model"
                       :items="items"
@@ -286,7 +293,8 @@
         console.log('last element: ', this.chip_selection[this.chip_selection.length - 1])
       },
       handleAutocomplete() {
-        console.log(this.model)
+        console.log('autocomplete model:', this.model)
+        this.chip_selection = [0]
         this.posts = this.get_portfolio_list.filter(element => element.id === this.model.id)
       },
       handleScroll() {

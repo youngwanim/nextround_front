@@ -136,11 +136,53 @@
         >
         <!-- Video for IR -->
         <v-row>
-          <v-col cols="12">
-            <v-img :src="`./assets/portfolio.png`"
-              max-height="200"
-              @click="showVideoModal = !showVideoModal">
-            </v-img>
+          <v-col class="text-center" cols="12">
+            <v-hover v-slot:default="{ hover }">
+              <v-card
+                 :class="{ 'on-hover': hover }"
+                 class="v-ir-card mx-auto"
+               >
+                <v-img :src="`./assets/portfolio_mod.png`"
+                  height="260"
+                  @click="showVideoModal = !showVideoModal">
+                  <v-card-title
+                    v-if="hover"
+                    class="title white--text text-center"
+                  >
+                    <v-row
+                      class="fill-height flex-column"
+                      justify="space-between"
+                    >
+                      <p class="mt-4 heading">IR 영상</p>
+
+                      <div>
+                        <p class="ma-0 body-1 font-weight-bold font-italic">
+                          스타트업의 성장에 함께 참여해주세요!
+                        </p>
+                        <!-- <p class="caption font-weight-medium font-italic text-left">
+                          테스트
+                        </p> -->
+                      </div>
+
+                      <div class="align-self-center">
+                        <v-btn
+                          :class="{ 'show-btns': hover }"
+                          x-large
+                          icon
+                        >
+                          <v-icon
+                            :class="{ 'show-btns': hover }"
+                            class="white--text"
+                          >
+                            mdi-television-play
+                          </v-icon>
+                        </v-btn>
+                      </div>
+                    </v-row>
+                  </v-card-title>
+                </v-img>
+              </v-card>
+            </v-hover>
             <base-video-dialog
               v-if="showVideoModal"
               :title="`Introduction`"
@@ -151,7 +193,7 @@
           <v-col cols="12">
             <v-sheet
               class="mx-auto"
-              elevation="1"
+              elevation="3"
               max-width="800"
             >
               <v-slide-group
@@ -160,8 +202,8 @@
                 show-arrows
               >
                 <v-slide-item
-                  v-for="n in 3"
-                  :key="n"
+                  v-for="post in posts"
+                  :key="post.id"
                   v-slot:default="{ active, toggle }"
                 >
                   <!-- <v-card
@@ -171,15 +213,34 @@
                     width="150"
                     @click="toggle"
                   > -->
-                  <base-business-card
-                    :image_url="post.image_url"
-                    :width="200"
-                    :title="post.title"
-                    :content="post.description"
-                    :target="'/portfolio/' + post.id"
-                    @loaded="$redrawVueMasonry('containerID')"
-                  >
-                  </base-business-card>
+                  <v-card
+                    class="ma-4"
+                    width="150"
+                    height="200"
+                    :to="'/portfolio/' + post.id">
+                    <div class="card-body">
+                      <v-img
+                        class="card-img-top"
+                        :src="post.image_url"
+                        lazy-src="/assets/lazyimg_portfolio.png"
+                        alt="Card image cap"
+                        height="150"
+                        min-height="50"
+                      >
+                        <template v-slot:placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                          </v-row>
+                        </template>
+                      </v-img>
+                      <h5 class="pa-2 card-title"><strong>{{ post.title }}</strong></h5>
+                      <!-- <p class="card-text">{{ post.description }}</p> -->
+                    </div>
+                  </v-card>
                   <!-- </v-card> -->
                 </v-slide-item>
               </v-slide-group>
@@ -213,6 +274,7 @@
         selectedElement: null,
         selectedOpen: false,
         events: [],
+        transparent: 'rgba(255, 255, 255, 0)',
         colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
         names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       }
@@ -223,8 +285,6 @@
           param: {},
           cb_res: (result) => {
             this.posts = this.get_portfolio_list
-            this.tags = this.get_chip_list
-
           },
           cb_error: (error) => {}
         }
@@ -339,3 +399,12 @@
     }
   }
 </script>
+<style>
+.v-ir-card:not(.on-hover) {
+  opacity: 0.6;
+}
+
+.show-btns {
+  color: rgba(255, 255, 255, 1);
+}
+</style>

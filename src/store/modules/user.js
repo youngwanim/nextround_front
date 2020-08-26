@@ -3,6 +3,7 @@ import api from '@/api/api.js'
 import router from '@/router'
 import VueCookies from "vue-cookies"
 import st_config from '@/config/config.js'
+import {user_sample} from './constants.js'
 
 Vue.use(VueCookies)
 
@@ -16,10 +17,12 @@ const state = {
   business_card : '',
   address : '',
   open_id: '',
-  access_token: ''
+  access_token: '',
+  is_authenticated: false,
 }
 
 const getters = {
+  get_authenticated: state => state.is_authenticated,
   get_user_type: state => state.user_type,
   get_name: state => state.name,
   get_corporation_name: state => state.corporation_name,
@@ -30,6 +33,9 @@ const getters = {
 }
 
 const mutations = {
+  set_authenticated(state, payload) {
+    state.is_authenticated = payload
+  },
   set_user_info(state, payload) {
     state.user_type = payload.user_type
     state.name = payload.name
@@ -38,6 +44,7 @@ const mutations = {
     state.mdn = payload.mdn
     state.profile_image = payload.profile_image
     state.address = payload.address
+    state.business_card = payload.business_card
   },
   set_user_create(state, payload) {
     state.user_type = payload.user_type
@@ -50,6 +57,18 @@ const mutations = {
     state.business_card = payload.business_card
     state.open_id = payload.open_id
     state.access_token = payload.access_token
+  },
+  set_user_empty(state) {
+    state.user_type = 2
+    state.name = ''
+    state.corporation_name = ''
+    state.email = ''
+    state.mdn = ''
+    state.profile_image = ''
+    state.address = ''
+    state.business_card = ''
+    state.open_id = ''
+    state.access_token = ''
   },
   set_user_type(state, payload) {
     state.user_type = payload
@@ -75,18 +94,50 @@ const actions = {
   signin(context, payload) {
     let vue = new Vue({})
     let param = {
-      id: payload.id,
-      password: payload.password
+      id: payload.param.login_key,
+      password: payload.param.login_value
     }
-
-    return api.async_call('set_signin_validation', param).then((result) => {
-      if (result.data.code === 200) {
-        console.log(result);
-        context.commit('set_user', result.data.user)
-        vue.$cookies.set('openid', result.data.openid)
-        vue.$cookies.set('token', result.data.token)
+    if (process.env.NODE_ENV === 'local') {
+      console.log('user data: ', user_data)
+      let user_data = user_sample.find(el => {
+        return (el.login_key === param.id &&
+        el.login_value === param.password)
+      })
+      console.log('user data: ', user_data)
+      if (user_data) {
+        context.commit('set_user_create', user_data)
+        context.commit('set_authenticated', true)
+        vue.$cookies.set('openid', user_data.open_id)
+        vue.$cookies.set('token', user_data.access_token)
+        if(payload.cb_res) payload.cb_res()
+        router.replace('/')
+      } else {
+        context.commit('set_authenticated', false)
+        if(payload.cb_error) payload.cb_error()
       }
-    })
+    } else {
+      return api.async_call('signin', param).then((result) => {
+        if (result.data.code === 200) {
+          console.log(result);
+          context.commit('set_user', result.data.user)
+          vue.$cookies.set('openid', result.data.openid)
+          vue.$cookies.set('token', result.data.token)
+        }
+      })
+    }
+  },
+  signout(context, payload) {
+    let vue = new Vue({})
+    if (process.env.NODE_ENV === 'local') {
+      context.commit('set_user_empty')
+      context.commit('set_authenticated', false)
+      vue.$cookies.remove('openid')
+      vue.$cookies.remove('token')
+      if(payload.cb_res) payload.cb_res()
+      router.replace('/')
+    } else {
+      alert('This action is not defined for this env')
+    }
   },
   set_user(context, payload) {
     let vue = new Vue({}),

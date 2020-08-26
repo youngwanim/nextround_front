@@ -30,7 +30,7 @@
           optional
         >
           <v-tab
-            v-for="(name, i) in items"
+            v-for="(name, i) in drawerList"
             :key="i"
             :to="{ name }"
             :exact="name === 'Home'"
@@ -42,6 +42,65 @@
           >
             {{ name }}
           </v-tab>
+          <!-- <v-tab v-if="get_authenticated">
+            <v-list-item-avatar>
+              <v-img :src="get_profile_image"></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-title>{{get_corporation_name}}</v-list-item-title>
+
+            <v-btn
+              icon
+              @click.stop="mini = !mini"
+            >
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+          </v-tab> -->
+          <v-menu
+            v-if="get_authenticated"
+            bottom
+            right
+          >
+            <template v-slot:activator="{ on, attrs }">
+
+              <v-btn
+                text
+                class="align-self-center mr-4"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-list-item-avatar :style="`border: 1px solid #000000`">
+                  <v-img :src="get_profile_image"></v-img>
+                </v-list-item-avatar>
+                <v-icon right>mdi-menu-down</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list class="grey lighten-5">
+              <!-- <v-list-item
+                v-for="item in more"
+                :key="item"
+              >
+                {{ item }}
+              </v-list-item> -->
+              <v-list-item>
+                <base-user-info-dialog/>
+              </v-list-item>
+              <v-list-item>
+                <base-portfolio-edit-dialog/>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <!-- <v-btn
+                  text
+                  @click=""
+                >
+                  LOG OUT
+                </v-btn> -->
+                <base-sign-out-btn/>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-tabs>
       </div>
 
@@ -59,6 +118,8 @@
 </template>
 
 <script>
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
+
   export default {
     name: 'HomeAppBar',
 
@@ -68,6 +129,7 @@
 
     data: () => ({
       drawer: null,
+      mini: false,
       items: [
         'Home',
         'Portfolio',
@@ -77,7 +139,32 @@
         // 'Pro',
         'Signin',
       ],
+      more: [
+        'News', 'Maps', 'Books', 'Flights', 'Apps',
+      ],
     }),
+    computed: {
+      ...mapGetters('user', [
+        'get_authenticated',
+        'get_user_type',
+        'get_name',
+        'get_corporation_name',
+        'get_email',
+        'get_mdn',
+        'get_profile_image',
+        'get_address',
+      ]),
+      drawerList() {
+        if (this.get_authenticated) {
+          let filteredList = this.items.filter(n=>{return n !== 'Signin'})
+          console.log('drawlist filteredList:', filteredList)
+          return this.items.filter(n=>{return n !== 'Signin'})
+        } else {
+          return this.items
+        }
+      },
+    },
+
   }
 </script>
 
