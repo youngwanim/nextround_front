@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="left">
+  <v-row justify="start">
    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
      <template v-slot:activator="{ on, attrs }">
        <v-btn
@@ -23,21 +23,31 @@
         </v-toolbar>
         <v-container>
           <v-row
-            :align="`center`" :justify="`center`"
+            :align="`center`"
+            :justify="`center`"
           >
             <v-col
               cols="12"
               md="6"
             >
-              <v-select
-                v-model="overall_select"
-                :items="auth_list"
-                :rules="[v => !!v || 'Item is required']"
-                label="전체 포트폴리오 노출 설정"
-                required
-              ></v-select>
-              <v-list three-line subheader>
+              <base-portfolio-edit-dialog-section
+                :selectedItem.sync="companyData.selected_item"
+                :authList = "auth_list"
+                :title.sync = "companyData.title"
+                :imageList.sync = "companyData.image_list"
+                :subTitle.sync = "companyData.sub_title"
+                :description.sync = "companyData.description"
+                :menuDescription = "menu_desc.company"
+              />
+              <!-- <v-list three-line subheader>
                 <v-subheader>회사 소개(필수항목)</v-subheader>
+                <v-select
+                  v-model="overall_select"
+                  :items="auth_list"
+                  :rules="[v => !!v || 'Item is required']"
+                  label="전체 포트폴리오 노출 설정"
+                  required
+                ></v-select>
                   <v-form v-model="valid_company">
                     <v-list-item>
                       <v-list-item-content>
@@ -108,37 +118,8 @@
                       </v-list-item-content>
                     </v-list-item>
                   </v-form>
-              </v-list>
-       <!-- <v-list three-line subheader>
-         <v-subheader>General</v-subheader>
-         <v-list-item>
-           <v-list-item-action>
-             <v-checkbox v-model="notifications"></v-checkbox>
-           </v-list-item-action>
-           <v-list-item-content>
-             <v-list-item-title>Notifications</v-list-item-title>
-             <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-           </v-list-item-content>
-         </v-list-item>
-         <v-list-item>
-           <v-list-item-action>
-             <v-checkbox v-model="sound"></v-checkbox>
-           </v-list-item-action>
-           <v-list-item-content>
-             <v-list-item-title>Sound</v-list-item-title>
-             <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
-           </v-list-item-content>
-         </v-list-item>
-         <v-list-item>
-           <v-list-item-action>
-             <v-checkbox v-model="widgets"></v-checkbox>
-           </v-list-item-action>
-           <v-list-item-content>
-             <v-list-item-title>Auto-add widgets</v-list-item-title>
-             <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
-           </v-list-item-content>
-         </v-list-item>
-       </v-list> -->
+              </v-list> -->
+
             </v-col>
             <v-col
               cols="12"
@@ -146,10 +127,10 @@
             >
               <v-row >
                 <base-portfolio-detail-card-sample
-                  :image_url="imageListUrl"
-                  :title="title"
-                  :sub_title="sub_title"
-                  :description="description"
+                  :image_url="companyData.image_list"
+                  :title="companyData.title"
+                  :sub_title="companyData.sub_title"
+                  :description="companyData.description"
                   :order_forward="true"
                 >
                   <!-- <template #text_footer>
@@ -170,6 +151,9 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-btn
+          @click="testShowData"
+        ></v-btn>
       </v-card>
     </v-dialog>
   </v-row>
@@ -199,6 +183,14 @@
         my_portfolio: {},
         overall_select: {},
         valid_company: null,
+        companyData: {
+          selected_item: 3,
+          title: '',
+          sub_title: '',
+          description: '',
+          image_list: [],
+        },
+        selected_item: 3,
         title: '',
         sub_title: '',
         description: '',
@@ -224,6 +216,27 @@
             value: 3
           }
         ],
+        menu_desc: {
+          company: {
+            title: {
+              title: '회사명(타이틀)',
+              subtitle: '회사 섹션의 타이틀로 표시됩니다'
+            },
+            subtitle: {
+              title: '회사소개 부제목',
+              subtitle: '회사의 가치와 지향점을 설명할 수 있는 짧은 소제목입니다'
+            },
+            description: {
+              title: '회사 설명',
+              subtitle: '회사에 대한 설명을 기술해주시기 바랍니다'
+            },
+            image_list: {
+              title: '회사 소개 이미지',
+              subtitle: '포트폴리오 상세 페이지에 노출될 회사 소개 이미지를 업로드해주시기 바랍니다.\
+                정사각형(aspect ratio 1:1 기준)에 가까운 이미지가 레이아웃에 잘 어울립니다.'
+            }
+          }
+        }
       }
     },
     created() {
@@ -243,6 +256,9 @@
       ...mapActions('portfolio', [
           'get_portfolio_of_mine'
       ]),
+      testShowData() {
+        console.log('current data: ', this.companyData)
+      },
       onFileImgList(e) {
         this.imageListName = []
         this.imageListFile = []
