@@ -1,11 +1,14 @@
 <template>
+  <v-card class="pa-4" outlined>
+    <p class="display-1 text--primary">
+        {{menuDescription.sectionTitle}}
+    </p>
   <v-list three-line subheader>
-    <v-subheader>회사 소개(필수항목)</v-subheader>
     <v-select
       v-model="data_selected_item"
       :items="auth_list"
       :rules="[v => !!v || 'Item is required']"
-      label="전체 포트폴리오 노출 설정"
+      :label="menuDescription.selection.label"
       @change="$emit('update:selectedItem', data_selected_item)"
       required
     ></v-select>
@@ -19,10 +22,15 @@
               v-model="data_title"
               :counter="10"
               :rules="[v => !!v || '회사명 입력은 필수입니다']"
-              label="회사명"
+              :label="menuDescription.title.label"
               @change="$emit('update:title', data_title)"
             ></v-text-field>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
@@ -33,10 +41,15 @@
               v-model="data_subtitle"
               :counter="10"
               :rules="[v => !!v || '입력은 필수입니다']"
-              label="회사소개 부제목"
+              :label="menuDescription.subtitle.label"
               @change="$emit('update:subTitle', data_subtitle)"
             ></v-text-field>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
@@ -47,21 +60,27 @@
               v-model="data_description"
               :counter="300"
               :rules="[v => !!v || '회사 설명 입력은 필수입니다']"
-              label="회사소개 본문"
+              :label="menuDescription.description.label"
               @change="$emit('update:description', data_description)"
             ></v-text-field>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>{{menuDescription.image_list.title}}</v-list-item-title>
             <v-list-item-subtitle>{{menuDescription.image_list.subtitle}}</v-list-item-subtitle>
-            <v-file-input
+
+            <!-- <v-file-input
               class="pl-4"
-              v-model="data_image_list"
+              v-model="image_list"
               accept="image/png, image/jpeg, image/bmp"
-              placeholder="회사 소개 이미지(복수선택)"
-              label="회사 소개 이미지"
+              placeholder="소개 이미지(복수선택)"
+              :label="menuDescription.image_list.label"
               multiple
               prepend-icon="mdi-paperclip"
               type="file"
@@ -76,11 +95,88 @@
                   {{ text }}
                 </v-chip>
               </template>
-            </v-file-input>
+            </v-file-input> -->
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
+        <v-row v-if="data_image_list.length > 0">
+          <v-col cols="12">
+            <v-sheet
+              class="mx-auto"
+              elevation="1"
+            >
+              <v-slide-group
+                v-model="model"
+                class="pa-4"
+                show-arrows
+              >
+                <v-slide-item
+                  v-for="(item, index) in data_image_list"
+                  :key="index"
+                  v-slot:default="{ active, toggle }"
+                >
+                  <v-card
+                    :color="active ? 'primary' : 'grey lighten-5'"
+                    class="ma-4"
+                    height="100"
+                    width="100"
+                    @click="toggle"
+                  >
+                  <v-img :src="item"
+                    height="100"
+                    contain
+                  >
+                    <v-row
+                      class="fill-height"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-scale-transition>
+                        <v-icon
+                          v-if="active"
+                          color="white"
+                          size="48"
+                          v-text="'mdi-close-circle-outline'"
+                        ></v-icon>
+                      </v-scale-transition>
+                    </v-row>
+                    </v-img>
+                  </v-card>
+                </v-slide-item>
+                <v-slide-item>
+                  <v-card
+                    :color="'white'"
+                    class="ma-4 add-image-file-card"
+                    height="100"
+                    width="100"
+                    flat
+                  >
+                    <v-row
+                      class="fill-height"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-file-input
+                        class="add-image-file-icon ml-4"
+                        label="File input"
+                        hide-input
+                        filled
+                        prepend-icon="mdi-plus-circle-outline"
+                      ></v-file-input>
+                    </v-row>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-sheet>
+          </v-col>
+        </v-row>
       </v-form>
   </v-list>
+  </v-card>
 </template>
 
 <script>
@@ -103,6 +199,7 @@
     data() {
       return {
         valid: null,
+        model: null,
         data_title: '',
         data_image_list: [],
         data_subtitle: '',
@@ -135,12 +232,10 @@
     },
     created() {
       this.data_title = this.title
-      // let payload = {
-      //   param: {
-      //     open_id: this.$cookies.get('openid')
-      //   }
-      // }
-      // this.$store.dispatch('portfolio/get_portfolio_of_mine', payload)
+      this.data_subtitle = this.subTitle
+      this.data_description = this.description
+      this.data_image_list = this.imageList
+      this.data_selected_item = this.selectedItem
     },
     computed: {
       ...mapGetters('portfolio', [
@@ -155,10 +250,10 @@
         this.imageListName = []
         this.imageListFile = []
         this.imageListUrl = []
-        if (this.data_image_list.length > 0) {
-          const files = this.data_image_list
+        if (this.image_list.length > 0) {
+          const files = this.image_list
           console.log(files)
-          for(var i=0; i<this.data_image_list.length; i++) {
+          for(var i=0; i<this.image_list.length; i++) {
             if(files[i] !== undefined) {
               this.imageListName.push(files[i].name)
               if(this.imageListName[i].lastIndexOf('.') <= 0) {
@@ -181,3 +276,13 @@
     }
   }
 </script>
+
+<style lang="scss">
+  .add-image-file-card {
+    .add-image-file-icon {
+      .v-icon {
+        font-size: 48px
+      }
+    }
+  }
+</style>

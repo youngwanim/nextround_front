@@ -36,7 +36,14 @@ const getters = {
   get_portfolio_detail: state => state.portfolio_detail,
   get_my_portfolio: state => state.portfolio_mine,
   get_chip_list: state => state.chip_list,
-  get_chip_selected_list: state => state.chip_slected_list
+  get_chip_selected_list: state => state.chip_slected_list,
+  get_my_company_data: state => {
+    if ('id' in state.portfolio_mine) {
+      return state.portfolio_mine
+    } else {
+      return {}
+    }
+  }
 }
 
 const mutations = {
@@ -72,15 +79,68 @@ const actions = {
     return
   },
   get_portfolio_of_mine(context, payload) {
+    console.log('get_portfolio_of_mine result: ', payload)
     let open_id = payload.param.open_id
     let pf_info = portfolio_detail_sample.find(element => {
       return element.open_id === open_id
     })
     if (pf_info) {
-      context.commit('set_my_portfolio', pf_info)
-      if(payload.cb_res) payload.cb_res(result)
+      function getAttr(obj, attr) {
+        if (attr in obj) {
+          return obj[attr]
+        } else {
+          if (attr.indexOf('title') > 0 || attr.indexOf('description')){
+            return ''
+          } else if (attr.indexOf('image_list') > 0){
+            return []
+          } else {
+            return null
+          }
+        }
+      }
+      let pf_edit_data = {
+        id: pf_info.id,
+        image_url: pf_info.image_url,
+        image_url_index: 0,
+        business_category: [],
+        //open_id: '',
+        companyData: {
+          auth_type: getAttr(pf_info, 'auth_type'),
+          title: getAttr(pf_info, 'title'),
+          sub_title: getAttr(pf_info, 'sub_title'),
+          description: getAttr(pf_info, 'description'),
+          image_list: getAttr(pf_info, 'image_list'),
+        },
+        product: {
+          auth_type: getAttr(pf_info, 'product_auth_type'),
+          title: getAttr(pf_info, 'product_title'),
+          sub_title: getAttr(pf_info, 'product_subtitle'),
+          description: getAttr(pf_info, 'product_introduce'),
+          image_list: getAttr(pf_info, 'product_image'),
+        },
+        team: {
+          auth_type: getAttr(pf_info, 'team_auth_type'),
+          title: getAttr(pf_info, 'team_title'),
+          sub_title: getAttr(pf_info, 'team_subtitle'),
+          description: getAttr(pf_info, 'team_introduce'),
+          image_list: getAttr(pf_info, 'team_image'),
+        },
+        ceo: {
+          auth_type: getAttr(pf_info, 'ceo_auth_type'),
+          title: getAttr(pf_info, 'ceo'),
+          sub_title: getAttr(pf_info, 'ceo_subtitle'),
+          description: getAttr(pf_info, 'ceo_introduce'),
+          image_list: getAttr(pf_info, 'ceo_image'),
+        },
+        ir: {
+          auth_type: getAttr(pf_info, 'ir_auth_type'),
+          file: getAttr(pf_info, 'ir_file'),
+        },
+      }
+      context.commit('set_my_portfolio', pf_edit_data)
+      if(payload.cb_res) payload.cb_res(pf_edit_data)
     } else{
-      if(payload.cb_error) payload.cb_error(result)
+      if(payload.cb_error) payload.cb_error()
     }
   }
 

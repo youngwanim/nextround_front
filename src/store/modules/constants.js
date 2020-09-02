@@ -32,6 +32,7 @@ export const business_category = [
 export const portfolio_detail_sample = [
   {
     id: 0,
+    auth_type: 3,
     title: '<업체명>',
     sub_title: '서비스, 비전, 캐치프레이즈를 표시합니다',
     description: '해당 업체로부터 제공되는 상품이나 서비스에 대한 간단한 설명과 기타 필요한 내용을 기술할 수 있습니다',
@@ -49,7 +50,7 @@ export const portfolio_detail_sample = [
     team_introduce: '흔히 남이 한다고 해서 따라 하는 경우 큰 효과를 얻기 힘들다. 애자일도 똑같다. 애자일 프로젝트를 성공 시키기 위해서는 무엇보다 애자일 개발 원칙 선언문이라고 불리는 애자일 선언(Agile Manifesto)을 중심으로 애자일 원칙에 대해 팀원 전체가 완벽히 이해하는 것이 중요하다.',
     ceo_auth_type: 3,
     ceo: 'Bruce Springsteen',
-    ceo_image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Bruce_Springsteen_-_Roskilde_Festival_2012.jpg/250px-Bruce_Springsteen_-_Roskilde_Festival_2012.jpg',
+    ceo_image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Bruce_Springsteen_-_Roskilde_Festival_2012.jpg/250px-Bruce_Springsteen_-_Roskilde_Festival_2012.jpg'],
     ceo_introduce: '브루스 프레드릭 조지프 스프링스틴(Bruce Frederick Joseph Springsteen,\
        1949년 9월 23일~)은 미국의 싱어송라이터이다. 별명은 보스(The Boss)이며, 20개의 그래미상,\
         2개의 골든 글로브상, 1개의 아카데미상을 수상하였다.',
@@ -60,6 +61,7 @@ export const portfolio_detail_sample = [
   },
   {
     id: 1,
+    auth_type: 3,
     title: '컬처히어로',
     sub_title: '미디어커머스 스타트업',
     description: '독자는 퀄리티만 보장되면 지불하려는 욕구가 있다. 사람들이 콘텐츠에 돈을 안 쓴다고 하는데, 개인적으로는 돈을 쓴다고 본다. 구매할 정도의 이점, 품질, 유용함을 (미디어가) 제시하지 못한 거다. ‘고퀄’ 콘텐츠를 어떻게 생산할 것인가의 문제다. 이런 측면의 접근이 이뤄지면 좋겠다고 생각하고 있다.',
@@ -75,7 +77,7 @@ export const portfolio_detail_sample = [
     // team_image: 'https://www.netclipart.com/pp/m/26-261864_people-clipart-large-group-small-sample-of-people.png',
     // team_introduce: '흔히 남이 한다고 해서 따라 하는 경우 큰 효과를 얻기 힘들다. 애자일도 똑같다. 애자일 프로젝트를 성공 시키기 위해서는 무엇보다 애자일 개발 원칙 선언문이라고 불리는 애자일 선언(Agile Manifesto)을 중심으로 애자일 원칙에 대해 팀원 전체가 완벽히 이해하는 것이 중요하다.',
     ceo: '한상엽 CEO',
-    ceo_image: 'http://www.bloter.net/wp-content/uploads/2019/09/DSC003582-800x1200.jpg',
+    ceo_image: ['http://www.bloter.net/wp-content/uploads/2019/09/DSC003582-800x1200.jpg'],
     ceo_introduce: '새로운 미디어 환경을 만들어내고 싶어요. 제2의 페이스북, 유튜브를 발굴하겠다는 욕심은 있죠. 하지만 이제 막 이 바닥에 들어왔으니까요, 배운다는 자세로 겸허하게 접근하려고 합니다.',
     business_category: [2,3],
     ir_file: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf',
@@ -87,6 +89,7 @@ export const portfolio_detail_sample = [
   },
   {
     id: 2,
+    auth_type: 3,
     title: '스타일씨',
     sub_title: '마이크로 인플루언서 리워드마켓',
     description: '한 번의 터치로 자신만의 쇼핑링크를 생성해 판매가 일어나면 매출의 최대 10%까지 보상으로 얻는 이커머스 플랫폼',
@@ -104,7 +107,7 @@ export const portfolio_detail_sample = [
     // team_image: 'https://www.netclipart.com/pp/m/26-261864_people-clipart-large-group-small-sample-of-people.png',
     // team_introduce: '흔히 남이 한다고 해서 따라 하는 경우 큰 효과를 얻기 힘들다. 애자일도 똑같다. 애자일 프로젝트를 성공 시키기 위해서는 무엇보다 애자일 개발 원칙 선언문이라고 불리는 애자일 선언(Agile Manifesto)을 중심으로 애자일 원칙에 대해 팀원 전체가 완벽히 이해하는 것이 중요하다.',
     ceo: '박재범 CEO',
-    ceo_image: 'https://stylec.co.kr/data/editor/2008/2949862092_1597194235.5761.jpg',
+    ceo_image: ['https://stylec.co.kr/data/editor/2008/2949862092_1597194235.5761.jpg'],
     ceo_introduce: '유명인의 말보다는 나와 크게 다르지 않은 내 지인인 마이크로 인플루언서의 말을 더 신뢰한다는 철학이 스타일씨의 성공 포인트라고 생각합니다.\
      적게는 1만 원에서 많게는 100만 원씩 리워드 받는 마이크로 인플루언서가 생겨나고 있으며, 누구나 참여할 수 있기에 디지털 노마드를 꿈꾸는 전문가뿐 아니라 용돈벌이를 위한 학생들까지 자발적으로 참여가 늘어나고 있는 상황이죠',
     business_category: [3,4],
@@ -117,6 +120,7 @@ export const portfolio_detail_sample = [
   },
   {
     id: 3,
+    auth_type: 3,
     title: '스파크플러스',
     sub_title: '당신이 성공에 집중하는 동안, 우리는 당신에게 집중합니다',
     description: '오피스의 본질은 일하는 곳입니다. 우리는 당신이 일에만 집중할 수 있도록 환경, 노하우, 서비스를 맞춤으로 지원합니다. \
@@ -150,6 +154,7 @@ export const portfolio_detail_sample = [
   },
   {
     id: 4,
+    auth_type: 3,
     title: '벤처스퀘어',
     sub_title: '미디어의 미래를 디자인하다',
     description: '벤처스퀘어는 2010년 4월부터 서비스를 시작한  대한민국 대표 스타트업 전문 미디어입니다. 스타트업을 대상으로 사람, 기술, 제품과 서비스 등을 심도 있는 분석 기사로 소개, 초기 스타트업의 1등 도우미를 자부합니다.\
@@ -169,7 +174,7 @@ export const portfolio_detail_sample = [
 // 길이라 생각하며, 브랜드 성장에 힘을 보태고 있습니다. 전 지점 스플러에게 더 좋은 스파크플러스의 커뮤니티를
 // 제공하기 위해 노력하고 있습니다.',
     ceo: '명승은 대표, 기자에서 CEO로',
-    ceo_image: 'http://farm9.staticflickr.com/8255/8660957801_6f7da91cc8_z.jpg',
+    ceo_image: ['http://farm9.staticflickr.com/8255/8660957801_6f7da91cc8_z.jpg'],
     ceo_introduce: '벤처와 스타트업을 위한 미디어, 명승은 대표는 이와 같은 목적을 품고 영속적인 미디어를 지향한다. 그는 벤처를 반짝 비추는 ‘빛’보다 꾸준하게 내리쬐는 ‘따뜻한 볕’이 되기를 희망하는 것이다. 뿐만 아니라 ‘광장’이라는 형태의 벤처 허브로서 관련 분야에 전문성을 가진 고급 정보의 필요성을 역설한다. 모든 벤처가 모이는 곳, 벤처스퀘어는 새로운 장르의 미디어다.',
     business_category: [4,5],
     ir_file: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf',

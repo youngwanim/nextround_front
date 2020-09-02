@@ -9,6 +9,7 @@ Vue.use(VueCookies)
 
 const state = {
   user_type : 2,
+  login_key: '',
   name : '',
   corporation_name : '',
   email : '',
@@ -19,9 +20,26 @@ const state = {
   open_id: '',
   access_token: '',
   is_authenticated: false,
+  is_active: false,
+  qualified: false,
 }
 
 const getters = {
+  get_user_info: state => {
+    return {
+      user_type : state.user_type,
+      login_key: state.login_key,
+      name : state.name,
+      corporation_name : state.corporation_name,
+      email : state.email,
+      mdn : state.mdn,
+      profile_image : state.profile_image,
+      business_card : state.business_card,
+      address : state.address,
+      is_active: state.is_active,
+      qualified: state.qualified,
+    }
+  },
   get_authenticated: state => state.is_authenticated,
   get_user_type: state => state.user_type,
   get_name: state => state.name,
@@ -29,7 +47,7 @@ const getters = {
   get_email: state => state.email,
   get_mdn: state => state.mdn,
   get_profile_image: state => state.profile_image,
-  get_address: state => state.address
+  get_address: state => state.address,
 }
 
 const mutations = {
@@ -38,13 +56,16 @@ const mutations = {
   },
   set_user_info(state, payload) {
     state.user_type = payload.user_type
+    state.login_key = payload.login_key,
     state.name = payload.name
     state.corporation_name = payload.corporation_name
     state.email = payload.email
     state.mdn = payload.mdn
     state.profile_image = payload.profile_image
-    state.address = payload.address
     state.business_card = payload.business_card
+    state.address = payload.address
+    state.is_active = payload.is_active
+    state.qualified = payload.qualified
   },
   set_user_create(state, payload) {
     state.user_type = payload.user_type
@@ -109,6 +130,7 @@ const actions = {
         context.commit('set_authenticated', true)
         vue.$cookies.set('openid', user_data.open_id)
         vue.$cookies.set('token', user_data.access_token)
+        context.commit('set_user_info', user_data)
         if(payload.cb_res) payload.cb_res()
         router.replace('/')
       } else {
