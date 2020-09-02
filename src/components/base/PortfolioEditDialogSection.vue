@@ -135,14 +135,14 @@
                       align="center"
                       justify="center"
                     >
-                      <v-scale-transition>
+                      <!-- <v-scale-transition> -->
                         <v-icon
                           v-if="active"
                           color="white"
                           size="48"
                           v-text="'mdi-close-circle-outline'"
                         ></v-icon>
-                      </v-scale-transition>
+                      <!-- </v-scale-transition> -->
                     </v-row>
                     </v-img>
                   </v-card>
