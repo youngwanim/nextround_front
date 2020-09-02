@@ -36,7 +36,7 @@
                 text
                 class="align-self-center ml-0 pl-0 mr-4"
               >
-                <v-list-item-avatar  :elevation="20">
+                <v-list-item-avatar  :style="`border: 1px solid #000000`">
                   <v-img :src="get_profile_image"></v-img>
                 </v-list-item-avatar>
               </v-btn>
@@ -45,20 +45,14 @@
         </template>
 
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>USER INFO</v-list-item-title>
-          </v-list-item-content>
+          <base-user-info-dialog/>
         </v-list-item>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>YOUR PORTFOLIO</v-list-item-title>
-          </v-list-item-content>
+          <base-portfolio-edit-dialog/>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>LOG OUT</v-list-item-title>
-          </v-list-item-content>
+          <base-sign-out-btn/>
         </v-list-item>
       </v-list-group>
 

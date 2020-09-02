@@ -87,131 +87,98 @@
                vertical
             ></v-divider>
             <v-col cols="12" sm="6">
-              <v-card flat class="d-inline-block mb-4">
-                <v-container>
-                  <v-row justify="center">
-                    <v-col cols="auto">
-                      <v-img
-                        height="200"
-                        width="200"
-                        :src="profile_image"
-                        :style="`border: 1px solid #000000`"
-                        contain
-                      ></v-img>
-                    </v-col>
-
-                    <v-col
-                      cols="auto"
-                      class="text-center pl-0"
+              <v-container>
+                <v-row justify="center">
+                  <v-col cols="12" sm="6">
+                    <v-card flat class="mx-auto">
+                    <v-img
+                      :src="profile_image"
+                      :style="`border: 1px solid #000000`"
+                      contain
+                    ></v-img>
+                    </v-card>
+                  </v-col>
+                  <v-col
+                    cols="12" sm="6"
+                    class="text-center pl-0"
+                  >
+                    <v-row
+                      class="flex-column ma-0 fill-height"
+                      justify="center"
+                      align="center"
                     >
-                      <v-row
-                        class="flex-column ma-0 fill-height"
-                        justify="center"
-                        align="center"
-                      >
-                        <div class="pr-4">
-                          <v-file-input
-                            v-model="image_pf"
-                            accept="image/png, image/jpeg, image/bmp"
-                            :placeholder="getPfImagePlaceholder"
-                            :label="`프로필 이미지`"
-                            prepend-icon="mdi-paperclip"
-                            type="file"
-                          >
-                            <template v-slot:selection="{ text }">
-                              <v-chip
-                                small
-                                label
-                                color="primary"
-                              >
-                                {{ text }}
-                              </v-chip>
-                            </template>
-                          </v-file-input>
-                        </div>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card>
-              <v-card flat class="d-inline-block">
-                <v-container>
-                  <v-row justify="space-between">
-                    <v-col cols="auto">
-                      <v-img
-                        height="200"
-                        width="200"
-                        :src="business_card"
-                        :style="`border: 1px solid #000000`"
-                        contain
-                      ></v-img>
-                    </v-col>
-
-                    <v-col
-                      cols="auto"
-                      class="text-center pl-0"
+                      <div class="pr-4">
+                        <v-file-input
+                          v-model="image_pf"
+                          accept="image/png, image/jpeg, image/bmp"
+                          :placeholder="getPfImagePlaceholder"
+                          :label="`프로필 이미지`"
+                          prepend-icon="mdi-paperclip"
+                          type="file"
+                        >
+                          <template v-slot:selection="{ text }">
+                            <v-chip
+                              small
+                              label
+                              color="primary"
+                            >
+                              {{ text }}
+                            </v-chip>
+                          </template>
+                        </v-file-input>
+                      </div>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-container>
+                <v-row justify="center">
+                  <v-col cols="12" sm="6">
+                    <v-card flat class="mx-auto">
+                    <v-img
+                      :src="business_card"
+                      :style="`border: 1px solid #000000`"
+                      contain
+                    ></v-img>
+                    </v-card>
+                  </v-col>
+                  <v-col
+                    cols="12" sm="6"
+                    class="text-center pl-0"
+                  >
+                    <v-row
+                      class="flex-column ma-0 fill-height"
+                      justify="center"
+                      align="center"
                     >
-                      <v-row
-                        class="flex-column ma-0 fill-height"
-                        justify="center"
-                        align="center"
-                      >
-                        <div class="pr-4">
-                          <v-file-input
-                            v-model="image_bc"
-                            accept="image/png, image/jpeg, image/bmp"
-                            :placeholder="getBCImagePlaceholder"
-                            :label="`명함 이미지`"
-                            prepend-icon="mdi-paperclip"
-                            type="file"
-                          >
-                            <template v-slot:selection="{ text }">
-                              <v-chip
-                                small
-                                label
-                                color="primary"
-                              >
-                                {{ text }}
-                              </v-chip>
-                            </template>
-                          </v-file-input>
-                        </div>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card>
+                      <div class="pr-4">
+                        <v-file-input
+                          v-model="image_bc"
+                          accept="image/png, image/jpeg, image/bmp"
+                          :placeholder="getBCImagePlaceholder"
+                          :label="`프로필 이미지`"
+                          prepend-icon="mdi-paperclip"
+                          type="file"
+                        >
+                          <template v-slot:selection="{ text }">
+                            <v-chip
+                              small
+                              label
+                              color="primary"
+                            >
+                              {{ text }}
+                            </v-chip>
+                          </template>
+                        </v-file-input>
+                      </div>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-col>
           </v-row>
         </v-container>
       </v-form>
-       <!-- <v-list three-line subheader>
-         <v-subheader>User Information</v-subheader>
-         <v-list-item>
-           <v-list-item-content>
-             <v-list-item-title>ID</v-list-item-title>
-           </v-list-item-content>
-         </v-list-item>
-         <v-list-item>
-           <v-list-item-content>
-             <v-list-item-title>Password</v-list-item-title>
-             <v-list-item-subtitle>Require password for purchase or use password to restrict purchase</v-list-item-subtitle>
-           </v-list-item-content>
-         </v-list-item>
-       </v-list>
-       <v-divider></v-divider>
-       <v-list three-line subheader>
-         <v-subheader>General</v-subheader>
-         <v-list-item>
-           <v-list-item-action>
-             <v-checkbox v-model="notifications"></v-checkbox>
-           </v-list-item-action>
-           <v-list-item-content>
-             <v-list-item-title>Notifications</v-list-item-title>
-             <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-           </v-list-item-content>
-         </v-list-item>
-       </v-list> -->
      </v-card>
    </v-dialog>
  </v-row>

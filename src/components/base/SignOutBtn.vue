@@ -1,4 +1,5 @@
 <template>
+  <v-row :justify="`center`">
   <v-dialog v-model="dialog" width="300" transition="dialog-bottom-transition">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -39,6 +40,7 @@
         </v-card-actions>
       </v-card>
  </v-dialog>
+ </v-row>
 </template>
 
 <script>
