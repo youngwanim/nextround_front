@@ -46,7 +46,14 @@ const getters = {
   get_corporation_name: state => state.corporation_name,
   get_email: state => state.email,
   get_mdn: state => state.mdn,
-  get_profile_image: state => state.profile_image,
+  get_profile_image: state => {
+    return (state.profile_image.length > 0 ?
+      st_config.target_server + state.profile_image : '')
+  },
+  get_business_card_image: state => {
+    return (state.business_card.length > 0 ?
+      st_config.target_server + state.business_card : '')
+  },
   get_address: state => state.address,
 }
 
@@ -81,15 +88,19 @@ const mutations = {
   },
   set_user_empty(state) {
     state.user_type = 2
+    state.login_key = '',
     state.name = ''
     state.corporation_name = ''
     state.email = ''
     state.mdn = ''
     state.profile_image = ''
-    state.address = ''
     state.business_card = ''
+    state.address = ''
+    state.is_active = ''
+    state.qualified = ''
     state.open_id = ''
     state.access_token = ''
+    state.is_authenticated = false
   },
   set_user_type(state, payload) {
     state.user_type = payload
@@ -112,6 +123,17 @@ const mutations = {
 }
 
 const actions = {
+  set_user(context, payload) {
+    let vue = new Vue({})
+    return api.async_call_callback('set_user', payload.param,
+      null,
+      (result) => {
+        context.commit('set_user_info', result.data.user)
+        payload.cb_res(result)
+      },
+      payload.cb_error
+    )
+  },
   signin(context, payload) {
     let vue = new Vue({})
     let param = {
@@ -119,12 +141,10 @@ const actions = {
       password: payload.param.login_value
     }
     if (process.env.NODE_ENV === 'local') {
-      console.log('user data: ', user_data)
       let user_data = user_sample.find(el => {
         return (el.login_key === param.id &&
         el.login_value === param.password)
       })
-      console.log('user data: ', user_data)
       if (user_data) {
         context.commit('set_user_create', user_data)
         context.commit('set_authenticated', true)
@@ -138,14 +158,19 @@ const actions = {
         if(payload.cb_error) payload.cb_error()
       }
     } else {
-      return api.async_call('signin', param).then((result) => {
-        if (result.data.code === 200) {
-          console.log(result);
-          context.commit('set_user', result.data.user)
-          vue.$cookies.set('openid', result.data.openid)
-          vue.$cookies.set('token', result.data.token)
-        }
-      })
+      return api.async_call_callback('signin', payload.param, null,
+        (result) => {
+          if (result.data.code === 200) {
+            context.commit('set_user_info', result.data.user)
+            context.commit('set_authenticated', true)
+            vue.$cookies.set('openid', result.data.user.open_id)
+            vue.$cookies.set('token', result.data.user.access_token)
+            if(payload.cb_res) payload.cb_res(result)
+            router.replace('/')
+          } else {
+            context.commit('set_authenticated', false)
+          }
+        },payload.cb_error)
     }
   },
   signout(context, payload) {
@@ -161,17 +186,26 @@ const actions = {
       alert('This action is not defined for this env')
     }
   },
-  set_user(context, payload) {
-    let vue = new Vue({}),
-      param = {
-        open_id: vue.$cookies.get('openid') || '',
-        access_token: vue.$cookies.get('token') || '',
-      }
+  validation(context) {
+    let vue = new Vue({})
 
-    return api.async_call('set_signin_validation', param).then((result) => {
+    return api.async_call_callback('validation', {
+      open_id: vue.$cookies.get('openid') || '',
+      access_token: vue.$cookies.get('token') || '',
+    }, null, (result) => {
       if (result.data.code === 200) {
-        console.log(result);
-        context.commit('set_user', result.data.user)
+        console.log('validation result: ', result)
+        context.commit('set_authenticated', true)
+        context.commit('set_user_info', result.data.user)
+      }
+    },(error) => {
+      const err = error.response.data
+      if (err.code === 401 || err.code === 400) {
+        vue.$cookies.remove('openid')
+        vue.$cookies.remove('token')
+        context.commit('set_user_empty')
+      } else if(err.code === 500) {
+        alert('시스템에 문제가 발생하였습니다. 관리자에게 문의 바랍니다. 010-XXXX-XXXX')
       }
     })
   },
@@ -188,7 +222,6 @@ const actions = {
 
     return api.async_call_callback('signup', payload.param, null,
       (result) => {
-        console.log('response signup: ', result)
         vue.$cookies.set('openid', result.data.user.open_id)
         vue.$cookies.set('token', result.data.user.access_token)
         payload.cb_res(result)
@@ -196,12 +229,41 @@ const actions = {
       payload.cb_error
     )
   },
+  check_id_exists(context, payload) {
+    return api.async_call_callback('check_id_exists', null,
+      payload.url_param, payload.cb_res, payload.cb_error)
+  },
+  upload_busicesscard_image(context, payload) {
+    let vue = new Vue({})
+
+    return api.async_call_callback('uploadfile', payload.param,
+      {
+        '{open_id}': vue.$cookies.get('openid'),
+        '{media}': 'businesscard',
+        '{target}': 'user'
+      },
+      (result) => {
+        context.commit('set_user_business_card', result.data.upload_filename)
+        context.dispatch('set_user', {param: {business_card: result.data.upload_filename},
+            cb_res: payload.cb_res, cb_error: payload.cb_error})
+      },
+      payload.cb_error,
+      true
+    )
+  },
   upload_profile_image(context, payload) {
-    return api.async_call_callback('uploadfile',payload.param, null,
+    let vue = new Vue({})
+
+    return api.async_call_callback('uploadfile', payload.param,
+      {
+        '{open_id}': vue.$cookies.get('openid'),
+        '{media}': 'profile',
+        '{target}': 'user'
+      },
       (result) => {
         context.commit('set_user_profile_image', result.data.upload_filename)
-        return api.async_call_callback()
-        payload.cb_res(result)
+        context.dispatch('set_user', {param: {profile_image: result.data.upload_filename},
+            cb_res: payload.cb_res, cb_error: payload.cb_error})
       },
       payload.cb_error,
       true

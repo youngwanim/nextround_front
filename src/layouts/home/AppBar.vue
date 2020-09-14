@@ -42,20 +42,6 @@
           >
             {{ name }}
           </v-tab>
-          <!-- <v-tab v-if="get_authenticated">
-            <v-list-item-avatar>
-              <v-img :src="get_profile_image"></v-img>
-            </v-list-item-avatar>
-
-            <v-list-item-title>{{get_corporation_name}}</v-list-item-title>
-
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
-          </v-tab> -->
           <v-menu
             v-if="get_authenticated"
             bottom
@@ -70,7 +56,8 @@
                 v-on="on"
               >
                 <v-list-item-avatar :style="`border: 1px solid #000000`">
-                  <v-img :src="get_profile_image"></v-img>
+                  <v-img v-if="get_profile_image.length > 0" :src="get_profile_image"></v-img>
+                  <v-icon v-else>mdi-account</v-icon>
                 </v-list-item-avatar>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
@@ -143,6 +130,9 @@
         'News', 'Maps', 'Books', 'Flights', 'Apps',
       ],
     }),
+    created() {
+      this.$store.dispatch('user/validation', null)
+    },
     computed: {
       ...mapGetters('user', [
         'get_authenticated',
@@ -154,6 +144,13 @@
         'get_profile_image',
         'get_address',
       ]),
+      profile_image() {
+        if (this.get_profile_image.length > 0) {
+          return this.get_profile_image
+        } else {
+
+        }
+      },
       drawerList() {
         if (this.get_authenticated) {
           let filteredList = this.items.filter(n=>{return n !== 'Signin'})
@@ -164,6 +161,12 @@
         }
       },
     },
+    methods: {
+      ...mapActions('user', [
+          'validation',
+      ]),
+
+    }
 
   }
 </script>

@@ -89,9 +89,9 @@ const actions = {
         if (attr in obj) {
           return obj[attr]
         } else {
-          if (attr.indexOf('title') > 0 || attr.indexOf('description')){
+          if (attr.indexOf('title') > -1 || attr.indexOf('description') > -1){
             return ''
-          } else if (attr.indexOf('image_list') > 0){
+          } else if (attr.indexOf('image') > -1){
             return []
           } else {
             return null

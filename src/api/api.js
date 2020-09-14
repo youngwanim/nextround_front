@@ -37,7 +37,8 @@ export default {
       data: param || {}
     }).catch((error) => {
       const err = error.response.data
-
+      console.log('async_call api:', api)
+      console.log('async_call error:', err)
       if (process.env.NODE_ENV === 'production') {
         if (err.code === 401 || err.code === 400) {
           vue.$cookies.remove('openid')
@@ -68,6 +69,8 @@ export default {
         cb_res(result)
       }
     }).catch((error) => {
+      let err = error.response.data
+      alert(err.code + ':' + err.message)
       if (cb_error) {
         cb_error(error)
       }

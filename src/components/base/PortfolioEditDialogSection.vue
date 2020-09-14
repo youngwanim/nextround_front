@@ -115,45 +115,18 @@
                 show-arrows
               >
                 <v-slide-item
-                  v-for="(item, index) in data_image_list"
+                  v-for="(item, index) in data_slide_image_list"
                   :key="index"
                   v-slot:default="{ active, toggle }"
                 >
                   <v-card
-                    :color="active ? 'primary' : 'grey lighten-5'"
-                    class="ma-4"
-                    height="100"
-                    width="100"
-                    @click="toggle"
-                  >
-                  <v-img :src="item"
-                    height="100"
-                    contain
-                  >
-                    <v-row
-                      class="fill-height"
-                      align="center"
-                      justify="center"
-                    >
-                      <!-- <v-scale-transition> -->
-                        <v-icon
-                          v-if="active"
-                          color="white"
-                          size="48"
-                          v-text="'mdi-close-circle-outline'"
-                        ></v-icon>
-                      <!-- </v-scale-transition> -->
-                    </v-row>
-                    </v-img>
-                  </v-card>
-                </v-slide-item>
-                <v-slide-item>
-                  <v-card
+                    v-if="index === data_slide_image_list.length-1"
                     :color="'white'"
                     class="ma-4 add-image-file-card"
                     height="100"
                     width="100"
                     flat
+                    @click="showCurrentIndex(index)"
                   >
                     <v-row
                       class="fill-height"
@@ -168,6 +141,34 @@
                         prepend-icon="mdi-plus-circle-outline"
                       ></v-file-input>
                     </v-row>
+                  </v-card>
+                  <v-card
+                    v-else
+                    :color="active ? 'primary' : 'grey lighten-5'"
+                    class="ma-4"
+                    height="100"
+                    width="100"
+                    @click="toggle"
+                  >
+                    <v-img :src="item"
+                      height="100"
+                      contain
+                    >
+                      <v-row
+                        class="fill-height"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-scale-transition>
+                          <v-icon
+                            v-if="active"
+                            color="white"
+                            size="48"
+                            v-text="'mdi-close-circle-outline'"
+                          ></v-icon>
+                        </v-scale-transition>
+                      </v-row>
+                    </v-img>
                   </v-card>
                 </v-slide-item>
               </v-slide-group>
@@ -202,6 +203,7 @@
         model: null,
         data_title: '',
         data_image_list: [],
+        data_slide_image_list: [],
         data_subtitle: '',
         data_description: '',
         data_selected_item: 3,
@@ -236,6 +238,7 @@
       this.data_description = this.description
       this.data_image_list = this.imageList
       this.data_selected_item = this.selectedItem
+      this._cloneSlideImageList(0, 0)
     },
     computed: {
       ...mapGetters('portfolio', [
@@ -246,6 +249,21 @@
       ...mapActions('portfolio', [
           'get_portfolio_of_mine'
       ]),
+      showCurrentIndex(index) {
+        console.log('current index is: ', index)
+      },
+      addImageList(image_url) {
+        this.data_image_list.push(image_url)
+        this._cloneSlideImageList()
+      },
+      removeImageList(index) {
+        this.data_image_list.splice(index, 1)
+        this._cloneSlideImageList()
+      },
+      _cloneSlideImageList() {
+        this.data_slide_image_list = [...this.data_image_list]
+        this.data_slide_image_list.push('add')
+      },
       onFileImgList(e) {
         this.imageListName = []
         this.imageListFile = []

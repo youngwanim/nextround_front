@@ -82,20 +82,19 @@
           <v-form
             ref="form"
             v-model="valid"
-            :lazy-validation="lazy"
           >
             <v-text-field
               v-model="accountInfo.common.id"
               label="ID"
               :counter="20"
               :rules="nameRules"
+              @input="clearId"
               name="login"
               prepend-icon="mdi-account"
               type="text"
               autocomplete="username"
               required
             >
-              <!-- <v-btn class="mb-1" slot="append"  color="primary">중복확인</v-btn> -->
               <template v-slot:append-outer>
                 <v-menu
                   style="top: -12px"
@@ -105,6 +104,9 @@
                     <v-btn
                       v-bind="attrs"
                       v-on="on"
+                      color="primary"
+                      :disabled="is_duplicated_done"
+                      @click="checkIdExists"
                     >
                       중복확인
                     </v-btn>
@@ -205,7 +207,6 @@
     </v-container>
       <v-btn
         color="primary"
-        :disabled="!valid"
         :loading="btn_el2_register"
         @click="validate"
       >
@@ -279,7 +280,7 @@
               <v-btn
                 class="mr-4"
                 color="primary"
-                @click="submitProfileImage"
+                @click="submitBusinessCardImage"
                 :disabled="btn_el3_register_profile_image_disable"
               >
                 등록하기
@@ -326,6 +327,7 @@
         btn_el3_register_profile_image_disable: true,
         file_profile_image: null,
         file_business_card: null,
+        is_duplicated_done: false,
         accountInfo: {
           common: {
             id: 'test_id',
@@ -349,7 +351,8 @@
         register_step2_response_msg: '',
         nameRules: [
           v => !!v || 'Name is required',
-          v => v.length <= 20 || 'Name must be less than 10 characters',
+          v => v.length <= 20 || 'Name must be less than 20 characters',
+          () => this.is_duplicated_done === true || 'ID 중복확인이 필요합니다'
         ],
         email: '',
         emailRules: [
@@ -377,9 +380,19 @@
         ]
       }
     },
+    computed: {
+      idHintCheckedResult() {
+        if (this.is_duplicated_done) {
+          return '이 아이디는 사용 가능합니다'
+        } else {
+          return '아이디 중복 확인이 필요합니다'
+        }
+      }
+    },
     methods: {
       ...mapActions('user', [
-          'signup'
+          'signup',
+          'check_id_exists'
       ]),
       onFilePicked(e) {
         this.imageName = ''
@@ -410,7 +423,7 @@
           }
         }
       },
-      submitProfileImage() {
+      submitBusinessCardImage() {
         let formData = new FormData();
         formData.append('file', this.file_profile_image);
         let payload = {
@@ -430,6 +443,26 @@
         }
         this.$store.dispatch('user/upload_profile_image', payload)
 
+      },
+      submitProfileImage() {
+        let formData = new FormData();
+        formData.append('file', this.file_profile_image);
+        let payload = {
+          param: formData,
+          cb_res: (result) => {
+            this.btn_el3_register_profile_image_disable = false
+            if (result.status === 200) {
+              this.btn_el3_register_profile_image_disable = true
+            } else {
+              this.alert_el2_response_fail = true
+            }
+          },
+          cb_error: (error) => {
+            this.btn_el2_register = false
+            this.alert_el2_response_fail = true
+          }
+        }
+        this.$store.dispatch('user/upload_profile_image', payload)
       },
       proceedRegister(type) {
         if (type === 'startup') {
@@ -477,6 +510,31 @@
         }
         console.log('result=', result)
       },
+      clearId() {
+        this.is_duplicated_done = false
+      },
+      checkIdExists() {
+        let payload = {
+          url_param: {
+            '{login_key}': this.accountInfo.common.id,
+          },
+          cb_res: (result) => {
+            console.log('checkIdExists success: ', result)
+            if (result.data.is_exists === false) {
+              this.is_duplicated_done = true
+              alert('해당 아이디는 사용 가능합니다')
+              this.$refs.form.validate('login')
+            } else {
+              this.is_duplicated_done = false
+              alert('해당 아이디는 이미 사용되고 있습니다')
+            }
+          },
+          cb_error: (error) => {
+            console.log('checkIdExists error: ', error)
+          }
+        }
+        this.$store.dispatch('user/check_id_exists', payload)
+      }
     },
   }
 </script>
