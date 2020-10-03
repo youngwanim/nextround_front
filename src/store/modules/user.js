@@ -183,7 +183,12 @@ const actions = {
       if(payload.cb_res) payload.cb_res()
       router.replace('/')
     } else {
-      alert('This action is not defined for this env')
+      context.commit('set_user_empty')
+      context.commit('set_authenticated', false)
+      context.commit('set_empty_portfolio')
+      vue.$cookies.remove('openid')
+      vue.$cookies.remove('token')
+      router.replace('/')
     }
   },
   validation(context) {

@@ -69,8 +69,11 @@ export default {
         cb_res(result)
       }
     }).catch((error) => {
+      console.log('error:', error)
       let err = error.response.data
-      alert(err.code + ':' + err.message)
+      if (!('extra' in config[api])){
+        alert(err.code + ':' + err.message)
+      }
       if (cb_error) {
         cb_error(error)
       }

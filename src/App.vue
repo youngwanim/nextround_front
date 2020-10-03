@@ -9,7 +9,7 @@
     name: 'App',
     metaInfo: {
       title: 'App',
-      titleTemplate: '%s | Zero Pro',
+      titleTemplate: 'Next Round',
       htmlAttrs: { lang: 'en' },
       meta: [
         { charset: 'utf-8' },

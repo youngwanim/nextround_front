@@ -15,10 +15,10 @@
         <v-btn icon dark @click="dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>PORTFOLIO</v-toolbar-title>
+        <v-toolbar-title>{{toolbarTitle}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn dark text @click="dialog = false">Save</v-btn>
+          <v-btn dark text @click="submitPortfolio">Save</v-btn>
         </v-toolbar-items>
         </v-toolbar>
         <v-container>
@@ -32,13 +32,17 @@
               cols="12"
               md="6"
             >
+              <base-portfolio-edit-dialog-tag-section
+                :tagList.sync="portfolio.business_category"
+                :tagAllList="tag_all_list"
+              />
               <base-portfolio-edit-dialog-section
-                :selectedItem.sync="companyData.auth_type"
+                :selectedItem.sync="portfolio_content.auth_type"
                 :authList = "auth_list"
-                :title.sync = "companyData.title"
-                :imageList.sync = "companyData.image_list"
-                :subTitle.sync = "companyData.sub_title"
-                :description.sync = "companyData.description"
+                :title.sync = "portfolio_content.title"
+                :imageList.sync = "portfolio_content.image_list"
+                :subTitle.sync = "portfolio_content.sub_title"
+                :description.sync = "portfolio_content.description"
                 :menuDescription = "menu_desc.company"
               />
             </v-col>
@@ -48,10 +52,10 @@
             >
               <v-row >
                 <base-portfolio-detail-card-sample
-                  :image_url="companyData.image_list"
-                  :title="companyData.title"
-                  :sub_title="companyData.sub_title"
-                  :description="companyData.description"
+                  :image_url="portfolio_content.image_list"
+                  :title="portfolio_content.title"
+                  :sub_title="portfolio_content.sub_title"
+                  :description="portfolio_content.description"
                   :order_forward="true"
                 >
                   <!-- <template #text_footer>
@@ -82,12 +86,12 @@
               md="6"
             >
               <base-portfolio-edit-dialog-section
-                :selectedItem.sync="product.auth_type"
+                :selectedItem.sync="portfolio_content.product_auth_type"
                 :authList = "auth_list"
-                :title.sync = "product.title"
-                :imageList.sync = "product.image_list"
-                :subTitle.sync = "product.sub_title"
-                :description.sync = "product.description"
+                :title.sync = "portfolio_content.product_title"
+                :imageList.sync = "portfolio_content.product_image_list"
+                :subTitle.sync = "portfolio_content.product_sub_title"
+                :description.sync = "portfolio_content.product_introduce"
                 :menuDescription = "menu_desc.product"
               />
             </v-col>
@@ -97,10 +101,10 @@
             >
               <v-row >
                 <base-portfolio-detail-card-sample
-                  :image_url="product.image_list"
-                  :title="product.title"
-                  :sub_title="product.sub_title"
-                  :description="product.description"
+                  :image_url="portfolio_content.product_image_list"
+                  :title="portfolio_content.product_title"
+                  :sub_title="portfolio_content.product_sub_title"
+                  :description="portfolio_content.product_introduce"
                   :order_forward="true"
                 >
                 </base-portfolio-detail-card-sample>
@@ -118,12 +122,12 @@
               md="6"
             >
               <base-portfolio-edit-dialog-section
-                :selectedItem.sync="team.auth_type"
+                :selectedItem.sync="portfolio_content.team_auth_type"
                 :authList = "auth_list"
-                :title.sync = "team.title"
-                :imageList.sync = "team.image_list"
-                :subTitle.sync = "team.sub_title"
-                :description.sync = "team.description"
+                :title.sync = "portfolio_content.team_title"
+                :imageList.sync = "portfolio_content.team_image_list"
+                :subTitle.sync = "portfolio_content.team_sub_title"
+                :description.sync = "portfolio_content.team_introduce"
                 :menuDescription = "menu_desc.team"
               />
             </v-col>
@@ -133,10 +137,10 @@
             >
               <v-row >
                 <base-portfolio-detail-card-sample
-                  :image_url="team.image_list"
-                  :title="team.title"
-                  :sub_title="team.sub_title"
-                  :description="team.description"
+                  :image_url="portfolio_content.team_image_list"
+                  :title="portfolio_content.team_title"
+                  :sub_title="portfolio_content.team_sub_title"
+                  :description="portfolio_content.team_introduce"
                   :order_forward="true"
                 >
                 </base-portfolio-detail-card-sample>
@@ -154,12 +158,12 @@
               md="6"
             >
               <base-portfolio-edit-dialog-section
-                :selectedItem.sync="ceo.auth_type"
+                :selectedItem.sync="portfolio_content.ceo_auth_type"
                 :authList = "auth_list"
-                :title.sync = "ceo.title"
-                :imageList.sync = "ceo.image_list"
-                :subTitle.sync = "ceo.sub_title"
-                :description.sync = "ceo.description"
+                :title.sync = "portfolio_content.ceo"
+                :imageList.sync = "portfolio_content.ceo_image_list"
+                :subTitle.sync = "portfolio_content.ceo_sub_title"
+                :description.sync = "portfolio_content.ceo_introduce"
                 :menuDescription = "menu_desc.ceo"
               />
             </v-col>
@@ -169,10 +173,10 @@
             >
               <v-row >
                 <base-portfolio-detail-card-sample
-                  :image_url="ceo.image_list"
-                  :title="ceo.title"
-                  :sub_title="ceo.sub_title"
-                  :description="ceo.description"
+                  :image_url="portfolio_content.ceo_image_list"
+                  :title="portfolio_content.ceo"
+                  :sub_title="portfolio_content.ceo_sub_title"
+                  :description="portfolio_content.ceo_introduce"
                   :order_forward="true"
                 >
                 </base-portfolio-detail-card-sample>
@@ -206,20 +210,35 @@
     data() {
       return {
         dialog: false,
-        notifications: false,
-        sound: true,
-        widgets: false,
-        my_portfolio: {},
-        overall_select: {},
-        valid_company: null,
-        image_url: '',
-        business_category: [],
-        companyData: {
+        tag_all_list: [],
+        portfolio: {
+          homepage_url: '',
+          business_category: [],
+        },
+        portfolio_content: {
           auth_type: 3,
           title: '',
           sub_title: '',
-          description: '',
+          image_url: '',
           image_list: [],
+          description: '',
+          product_auth_type: 3,
+          product_title: '',
+          product_sub_title: '',
+          product_image_list: [],
+          product_introduce: '',
+          team_auth_type: 3,
+          team_title: '',
+          team_sub_title: '',
+          team_image_list: [],
+          team_introduce: '',
+          ceo_auth_type: 3,
+          ceo: '',
+          ceo_sub_title: '',
+          ceo_image_list: [],
+          ceo_introduce: '',
+          ir_auth_type: 3,
+          ir_file: '',
         },
         product: {
           auth_type: 3,
@@ -246,14 +265,6 @@
           auth_type: 3,
           file: ''
         },
-        selected_item: 3,
-        title: '',
-        sub_title: '',
-        description: '',
-        image_list: [],
-        imageListName: [],
-        imageListUrl: [],
-        imageListFile: [],
         auth_list: [
           {
             text:'노출안함',
@@ -274,6 +285,7 @@
         ],
         menu_desc: {
           company: {
+            menu_name: "company",
             sectionTitle: '회사 소개(필수항목)',
             selection: {
               label: '전체 포트폴리오 노출 설정',
@@ -301,6 +313,7 @@
             }
           },
           product: {
+            menu_name: "product",
             sectionTitle: '상품 혹은 서비스 소개',
             selection: {
               label: '상품/서비스 노출 설정',
@@ -329,6 +342,7 @@
             }
           },
           team: {
+            menu_name: "team",
             sectionTitle: '팀 소개',
             selection: {
               label: '팀 소개 노출 설정',
@@ -357,6 +371,7 @@
             }
           },
           ceo: {
+            menu_name: "ceo",
             sectionTitle: 'CEO 소개',
             selection: {
               label: 'CEO 소개 노출 설정',
@@ -394,55 +409,136 @@
         },
         cb_res: (result) => {
           let pf_object = this.get_my_portfolio
-          this.companyData = pf_object.companyData
-          this.product = pf_object.product
-          this.team = pf_object.team
-          this.ceo = pf_object.ceo
-          this.ir = pf_object.ir
-          this.business_category = pf_object.business_category
+          this.portfolio.homepage_url = pf_object.homepage_url
+          this.portfolio.business_category = pf_object.business_category
+
+          for (let key of Object.keys(this.portfolio_content)){
+            if (key in pf_object.content) {
+              this.portfolio_content[key] = pf_object.content[key]
+            }
+          }
         },
-        cb_error: (error) => {}
+        cb_error: (error) => {
+          this.initPortfolioData()
+        }
+      }
+      let payload_tag = {
+        cb_res: (result) => {
+          console.log('tag_list_result:', result.data)
+          this.tag_all_list = result.data.tags
+        },
+        cb_error: (error) => {
+          alert('태크 리스트 로딩에 실패했습니다')
+        }
       }
       this.$store.dispatch('portfolio/get_portfolio_of_mine', payload)
+      this.$store.dispatch('portfolio/get_all_tag_list', payload_tag)
     },
     computed: {
       ...mapGetters('portfolio', [
         'get_my_portfolio'
       ]),
+      toolbarTitle() {
+        if ( Object.keys(this.get_my_portfolio).length === 0) {
+          return '포트폴리오 등록'
+        } else{
+          return '포트폴리오 수정'
+        }
+      }
     },
     methods: {
       ...mapActions('portfolio', [
-          'get_portfolio_of_mine'
+          'get_portfolio_of_mine',
+          'get_all_tag_list'
       ]),
       testShowData() {
         console.log('current data: ', this.companyData)
       },
-      onFileImgList(e) {
-        this.imageListName = []
-        this.imageListFile = []
-        this.imageListUrl = []
-        if (this.image_list.length > 0) {
-          const files = this.image_list
-          console.log(files)
-          for(var i=0; i<this.image_list.length; i++) {
-            if(files[i] !== undefined) {
-              this.imageListName.push(files[i].name)
-              if(this.imageListName[i].lastIndexOf('.') <= 0) {
-                return
-              }
-              const fr = new FileReader ()
-              fr.readAsDataURL(files[i])
-              fr.addEventListener('load', () => {
-                this.imageListUrl.push(fr.result)
-                this.imageListFile.push(files[i]) // this is an image file that can be sent to server...
-              })
-            } else {
-              this.imageListName.push('')
-              this.imageListFile.push('')
-              this.imageListUrl.push('')
-            }
+      initPortfolioData() {
+        this.portfolio = {
+          homepage_url: '',
+          business_category: [],
+        }
+
+        this.portfolio_content =  {
+          auth_type: 3,
+          title: '',
+          sub_title: '',
+          image_url: '',
+          image_list: [],
+          description: '',
+          product_auth_type: 3,
+          product_title: '',
+          product_sub_title: '',
+          product_image_list: [],
+          product_introduce: '',
+          team_auth_type: 3,
+          team_title: '',
+          team_sub_title: '',
+          team_image_list: [],
+          team_introduce: '',
+          ceo_auth_type: 3,
+          ceo: '',
+          ceo_sub_title: '',
+          ceo_image_list: [],
+          ceo_introduce: '',
+          ir_auth_type: 3,
+          ir_file: '',
+        }
+      },
+      mutatePortiflio() {
+        let payload = {
+          business_category: this.portfolio.business_category,
+          content: this.portfolio_content
+        }
+        console.log('tag_list:', this.portfolio.business_category)
+        this.$store.commit('portfolio/set_my_portfolio_attr', payload)
+      },
+      submitPortfolio() {
+        this.mutatePortiflio()
+        //
+        // let portfolio = {
+        //   open_id: '',
+        //   business_category: this.tag_list
+        // }
+        // portfolio['content'] = {
+        //   auth_type: this.portfolio_content.auth_type,
+        //   title: this.portfolio_content.title,
+        //   sub_title: this.portfolio_content.sub_title,
+        //   image_url: this.portfolio_content.image_url,
+        //   image_list: this.portfolio_content.image_list,
+        //   description: this.portfolio_content.description,
+        //   product_auth_type: this.portfolio_content.product_auth_type,
+        //   product_title: this.portfolio_content.product_title,
+        //   product_sub_title: this.portfolio_content.product_sub_title,
+        //   product_image_list: this.portfolio_content.product_image_list,
+        //   product_introduce: this.portfolio_content.product_introduce,
+        //   team_auth_type: this.portfolio_content.team_auth_type,
+        //   team_title: this.portfolio_content.team_title,
+        //   team_sub_title: this.portfolio_content.team_sub_title,
+        //   team_image_list: this.portfolio_content.team_image_list,
+        //   team_introduce: this.portfolio_content.team_introduce,
+        //   ceo_auth_type: this.portfolio_content.ceo_auth_type,
+        //   ceo: this.portfolio_content.ceo,
+        //   ceo_sub_title: this.portfolio_content.ceo_sub_title,
+        //   ceo_image_list: this.portfolio_content.ceo_image_list,
+        //   ceo_introduce: this.portfolio_content.ceo_introduce,
+        //   ir_auth_type: this.portfolio_content.ir_auth_type,
+        //   ir_file: this.portfolio_content.ir_file
+        // }
+        let payload = {
+          param: null,
+          cb_res: (result) => {
+            console.log('submit my portfolio:', result.data)
+            alert('포트폴리오가 성공적으로 등록되었습니다')
+            this.dialog = false
+          },
+          cb_error: (error) => {
+            console.log('failed to submit my portfolio', error)
           }
         }
+
+        this.$store.dispatch('portfolio/update_my_portfolio', payload)
       },
     }
   }

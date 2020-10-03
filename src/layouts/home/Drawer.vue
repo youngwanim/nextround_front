@@ -132,7 +132,6 @@
       drawerList() {
         if (this.get_authenticated) {
           let filteredList = this.items.filter(n=>{return n !== 'Signin'})
-          console.log('drawlist filteredList:', filteredList)
           return this.items.filter(n=>{return n !== 'Signin'})
         } else {
           return this.items
