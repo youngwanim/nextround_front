@@ -113,7 +113,8 @@
                 v-model="model"
                 class="pa-4"
                 show-arrows
-                @change="testUpdate"
+                :mandatory="selectImage"
+                @change="handleSlide"
               >
                 <v-slide-item
                   v-for="(item, index) in data_image_list"
@@ -121,9 +122,9 @@
                   v-slot:default="{ active, toggle }"
                 >
                   <v-card
-                    :color="active ? 'primary' : 'grey lighten-5'"
+                    :color="(active && imageUrl) ? 'primary' : 'grey lighten-5'"
                     class="ma-4"
-                    height="100"
+                    height="136"
                     width="100"
                     @click="toggle"
                   >
@@ -138,15 +139,31 @@
                       >
                         <v-scale-transition>
                           <v-icon
-                            v-if="active"
+                            v-if="active && imageUrl"
                             color="white"
                             size="48"
-                            v-text="'mdi-close-circle-outline'"
+                            v-text="'mdi-checkbox-marked-circle-outline'"
                             @click="removeImageList(index)"
                           ></v-icon>
                         </v-scale-transition>
                       </v-row>
                     </v-img>
+                    <!-- <v-fab-transition>
+                      <v-btn
+                        fab
+                        dark
+                        absolute
+                        top
+                        right
+                      >
+                        <v-icon>mdi-close-circle-outline</v-icon>
+                      </v-btn>
+                    </v-fab-transition> -->
+                    <v-btn block
+                      @click="removeImageList(index)"
+                    >
+                      <v-icon>mdi-close-circle-outline</v-icon>
+                    </v-btn>
                   </v-card>
                 </v-slide-item>
               </v-slide-group>
@@ -194,6 +211,8 @@
       subTitle: String,
       description: String,
       menuDescription: Object,
+      selectImage: Boolean,
+      imageUrl: String,
     },
     data() {
       return {
@@ -236,7 +255,6 @@
       this.data_description = this.description
       this.data_image_list = this.imageList
       this.data_selected_item = this.selectedItem
-      // this._cloneSlideImageList(0, 0)
     },
     computed: {
       ...mapGetters('portfolio', [
@@ -247,9 +265,10 @@
       ...mapActions('portfolio', [
           'get_portfolio_of_mine'
       ]),
-      testUpdate() {
-        console.log('slide_group changed')
-
+      handleSlide() {
+        if (this.selectImage && this.model !== null) {
+          this.$emit('update:imageUrl', this.data_image_list[this.model])
+        }
       },
       showCurrentIndex(index) {
         console.log('current index is: ', index)
@@ -263,31 +282,10 @@
         this.emit_image_list()
         // this._cloneSlideImageList()
       },
-      // _cloneSlideImageList() {
-      //   this.data_slide_image_list = [...this.data_image_list]
-      //   // this.data_slide_image_list.push('add')
-      // },
       onFileImgList(e) {
         this.imageListFile = []
         if (this.image_list && this.image_list.length > 0) {
           this.submitImageFile()
-          const files = this.image_list
-
-          console.log('files:', files)
-          // for(var i=0; i<this.image_list.length; i++) {
-          //   if(this.image_list[i] !== undefined) {
-          //     if (this.image_list[i].name.lastIndexOf('.') <= 0) return
-          //     const fr = new FileReader ()
-          //     fr.addEventListener('load', () => {
-          //       let loadedImage = fr.result
-          //       this.imageListFile.push(loadedImage)
-          //       this.addImageList(loadedImage)
-          //     })
-          //     fr.readAsDataURL(this.image_list[i])
-          //   } else {
-          //     this.imageListFile = []
-          //   }
-          // }
         }
       },
       emit_image_list(val=null) {

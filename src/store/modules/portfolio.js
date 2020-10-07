@@ -93,26 +93,60 @@ const mutations = {
 
 const actions = {
   get_portfolio_overall_list(context, payload) {
-    context.commit('set_portfolio_list', portfolios_sample)
-    context.commit('set_chip_list', business_category)
-    payload.cb_res()
-    return
+    if (process.env.NODE_ENV === 'local') {
+      context.commit('set_portfolio_list', portfolios_sample)
+      context.commit('set_chip_list', business_category)
+      payload.cb_res()
+      return
+    } else {
+      let flag_done = false
+      api.async_call_callback('get_tag_list', payload.param, null,
+        (result) => {
+          if (result.data.code === 200) {
+            context.commit('set_chip_list', result.data.tags)
+            if (payload.cb_res && flag_done) payload.cb_res();
+            else flag_done = true;
+          }
+        }, payload.cb_error
+      )
+      api.async_call_callback('get_portfolio_list', null, null,
+        (result) => {
+          console.log('get_portfolio_list', result.data)
+          if (result.data.code === 200) {
+            context.commit('set_portfolio_list', result.data.portfolios)
+            if (payload.cb_res && flag_done) payload.cb_res();
+            else flag_done = true
+          }
+        }, payload.cb_error
+      )
+    }
   },
   get_portfolio_detail(context, payload) {
     // just for development
     let index = parseInt(payload.param.id)
     console.log('param id for pf detail: ', index)
     console.log('param id type for pf detail: ', (typeof index))
-    let target_pf = portfolio_detail_sample[index]
-    let chip_list = business_category.filter(element => {
-      return target_pf.business_category.includes(element.key)
-    })
-    let result = {data:{}}
-    result.data = target_pf
-    context.commit('set_portfolio_detail', target_pf)
-    result.data['tags'] = chip_list
-    payload.cb_res(result)
-    return
+    if (process.env.NODE_ENV === 'local') {
+      let target_pf = portfolio_detail_sample[index]
+      let chip_list = business_category.filter(element => {
+        return target_pf.business_category.includes(element.key)
+      })
+      let result = {data:{}}
+      result.data = target_pf
+      context.commit('set_portfolio_detail', target_pf)
+      result.data['tags'] = chip_list
+      payload.cb_res(result)
+      return
+    } else {
+      return api.async_call_callback('get_portfolio_detail', null,
+        {'{portfolio_id}': payload.param.id},
+        (result) => {
+          if (result.data.code === 200) {
+            context.commit('set_portfolio_detail', result.data.portfolio)
+            if(payload.cb_res) payload.cb_res(result)
+          }
+        },payload.cb_error)
+    }
   },
   get_portfolio_of_mine(context, payload) {
     console.log('get_portfolio_of_mine result: ', payload)

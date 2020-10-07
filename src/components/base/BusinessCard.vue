@@ -11,7 +11,7 @@
           lazy-src="/assets/lazyimg_portfolio.png"
           alt="Card image cap"
           min-height="50"
-          @load="$emit('loaded')"
+          @load="handleLoadEvent"
         >
           <template v-slot:placeholder>
             <v-row
@@ -43,7 +43,14 @@
       title: String,
       target: String,
     },
+    computed: {
+
+    },
     methods: {
+      handleLoadEvent() {
+        console.log('image loaded:', this.image_url)
+        this.$emit('loaded')
+      },
       smartTrim(string, maxLength) {
         var trimmedString = string.substr(0, maxLength);
         return trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))

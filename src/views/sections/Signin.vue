@@ -48,10 +48,10 @@
                   ></v-text-field>
 
                   <v-text-field
-                    id="current-password"
+                    id="password"
                     v-model="login_value"
                     label="Password"
-                    name="current-password"
+                    name="password"
                     autocomplete="on"
                     prepend-icon="mdi-lock"
                     type="password"

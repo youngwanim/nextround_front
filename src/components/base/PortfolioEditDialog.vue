@@ -44,6 +44,8 @@
                 :subTitle.sync = "portfolio_content.sub_title"
                 :description.sync = "portfolio_content.description"
                 :menuDescription = "menu_desc.company"
+                :selectImage = "true"
+                :imageUrl.sync = "portfolio_content.image_url"
               />
             </v-col>
             <v-col

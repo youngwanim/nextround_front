@@ -97,50 +97,55 @@
               :sub_title="info.sub_title"
               :description="info.description"
               :order_forward="true"
+              @loaded="$redrawVueMasonry('containerID')"
             >
               <template #text_footer>
                 <div class="text-center">
                   <v-chip
-                    v-for="tag in info.tags"
-                    :key="tag.key"
+                    v-for="tag in tags"
+                    :key="tag.id"
                     class="mt-4 ml-4"
                     disabled
                     color="primary white--text"
                   >
-                    {{ tag.text }}
+                    {{ tag.term }}
                   </v-chip>
                 </div>
               </template>
             </base-portfolio-detail-card>
             <base-portfolio-detail-card
               v-if="get_user_type <= info.product_auth_type"
-              :image_url="info.product_image"
+              :image_url="info.product_image_list"
               :title="info.product_title"
-              :sub_title="``"
+              :sub_title="info.product_sub_title"
               :description="info.product_introduce"
               :order_forward="false"
+              @loaded="$redrawVueMasonry('containerID')"
             />
             <base-portfolio-detail-card
               v-if="get_user_type <= info.ceo_auth_type"
-              :image_url="info.ceo_image"
-              :title="`CEO`"
-              :sub_title="info.ceo"
+              :image_url="info.ceo_image_list"
+              :title="info.ceo"
+              :sub_title="info.ceo_sub_title"
               :description="info.ceo_introduce"
               :order_forward="true"
+              @loaded="$redrawVueMasonry('containerID')"
             />
             <base-portfolio-detail-card
               v-if="get_user_type <= info.team_auth_type"
-              :image_url="info.team_image"
-              :title="`팀 소개`"
+              :image_url="info.team_image_list"
+              :title="info.team_title"
               :sub_title="info.team_title"
               :description="info.team_introduce"
               :order_forward="false"
+              @loaded="$redrawVueMasonry('containerID')"
             />
             <base-portfolio-detail-card
               v-if="get_user_type <= info.ir_auth_type"
               :title="`IR 다운로드`"
               :description="`보다 상세한 자료를 원하신다면, IR자료를 다운받아보세요!`"
               :order_forward="true"
+              @loaded="$redrawVueMasonry('containerID')"
             >
               <template #image_col>
                 <div class="text-center">
@@ -178,7 +183,6 @@
         info: {},
         showVideoModal: false,
         tags: [],
-        tags_selected: [],
         mandatory: false,
         multiple: true,
         selected: null,
@@ -202,10 +206,13 @@
           param: {id:this.$route.params.id},
           cb_res: (result) => {
             //this.info = this.get_portfolio_detail_on_interest
-            this.info = result.data
+            this.info = result.data.portfolio.content
+            this.tags = result.data.tags
             console.log('pf detail info: ', this.info)
           },
-          cb_error: (error) => {}
+          cb_error: (error) => {
+            alter('포트폴리오 상세 페이지 로드에 실패했습니다. 잠시 후 다시 시도해주세요')
+          }
         }
         this.$store.dispatch('portfolio/get_portfolio_detail', payload)
       }
@@ -216,9 +223,9 @@
       })
     },
     computed: {
-      ...mapGetters('portfolio', [
-        'get_portfolio_detail'
-      ]),
+      // ...mapGetters('portfolio', [
+      //   'get_portfolio_detail'
+      // ]),
       ...mapGetters('user', [
         'get_user_type'
       ]),

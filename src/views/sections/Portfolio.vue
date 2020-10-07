@@ -36,9 +36,9 @@
                   <v-chip
                     v-for="tag in tags"
                     @click="handleSingleChip"
-                    :key="tag.key"
+                    :key="tag.id"
                   >
-                    {{ tag.text }}
+                    {{ tag.term }}
                   </v-chip>
                 </v-chip-group>
                 <!-- </v-sheet> -->
@@ -123,7 +123,7 @@
                           :image_url="post.image_url"
                           :width="200"
                           :title="post.title"
-                          :content="post.description"
+                          :content="post.sub_title"
                           :target="'/portfolio/' + post.id"
                           @loaded="$redrawVueMasonry('containerID')"
                         >
@@ -179,7 +179,11 @@
           cb_res: (result) => {
             this.posts = this.get_portfolio_list
             this.tags = this.get_chip_list
-
+            this.tags.unshift({
+              term: '모두선택',
+              id: 0,
+              portfolios: []});
+            console.log('posts:', this.posts)
           },
           cb_error: (error) => {}
         }
@@ -270,7 +274,6 @@
 
       },
       handleChipSelection() {
-        console.log(this.chip_selection)
         if (this.chip_selection[this.chip_selection.length - 1] === 0) {
           this.chip_selection = [0]
         } else if (this.chip_selection.length > 1 && this.chip_selection.some(elm => elm === 0)) {
@@ -278,14 +281,19 @@
         } else if(this.chip_selection.length === 0){
           this.chip_selection.push(0)
         }
+
         if (this.chip_selection.length === 1 && this.chip_selection[0] === 0){
           this.posts = this.get_portfolio_list
         } else {
+          let target_pf_ids = []
+          this.chip_selection.forEach(chips => {
+            target_pf_ids = [...target_pf_ids, ...this.tags[chips].portfolios]
+          })
           this.posts = this.get_portfolio_list.filter(
             element => {
-              return element.business_category.some(bc => this.chip_selection.includes(bc))
-            }
-          )
+              return target_pf_ids.includes(element.id)
+            })
+          this.model = null
         }
       },
       handleSingleChip(model) {
@@ -295,7 +303,7 @@
       handleAutocomplete() {
         console.log('autocomplete model:', this.model)
         this.chip_selection = [0]
-        this.posts = this.get_portfolio_list.filter(element => element.id === this.model.id)
+        if (this.model) this.posts = this.get_portfolio_list.filter(element => element.id === this.model.id)
       },
       handleScroll() {
         let scrollHeight = window.scrollY

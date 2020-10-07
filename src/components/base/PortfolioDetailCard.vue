@@ -46,13 +46,19 @@
                     v-for="(image, i) in image_url"
                     :key="i"
                   >
-                    <v-img :src="image" aspect-ratio="1" contain>
+                    <v-img
+                      :src="image"
+                      aspect-ratio="1"
+                      contain
+                      @load="$emit('loaded')"
+                    >
                     </v-img>
                   </v-carousel-item>
                 </v-carousel>
                 <v-img
                   v-else-if="checkIfImage"
-                  :src="image_url" aspect-ratio="1" contain>
+                  :src="image_url" aspect-ratio="1" contain
+                  @load="$emit('loaded')">
                 </v-img>
                 <slot name="image_col">
                 </slot>
