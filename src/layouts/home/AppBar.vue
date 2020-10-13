@@ -3,7 +3,6 @@
     <v-app-bar
       id="home-app-bar"
       app
-      color="white"
       elevation="1"
       height="80"
     >
@@ -26,7 +25,7 @@
 
       <div>
         <v-tabs
-          class="hidden-sm-and-down"
+          class="title-tab hidden-sm-and-down"
           optional
         >
           <v-tab
@@ -35,8 +34,8 @@
             :to="{ name }"
             :exact="name === 'Home'"
             :ripple="false"
-            active-class="text--primary"
-            class="font-weight-bold"
+            active-class="v-tab-active-custom white--text"
+            class="font-weight-bold white--text"
             min-width="96"
             text
           >
@@ -172,6 +171,7 @@
 
 <style lang="sass">
   #home-app-bar
+    background-color: rgba(0,0,0,0.2)
     .v-tabs-slider
       max-width: 24px
       margin: 0 auto
@@ -179,4 +179,11 @@
     .v-tab
       &::before
         display: none
+
+    .title-tab
+      .v-tabs-bar
+        background-color: rgba(0,0,0,0)
+        .v-tab-active-custom
+          opacity: 1
+
 </style>

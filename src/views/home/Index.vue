@@ -15,7 +15,8 @@
 
     mixins: [
       LoadSections([
-        'hero',
+        'curation'
+        // 'hero',
         // 'theme-features',
         // 'features',
         // 'contact-us',
