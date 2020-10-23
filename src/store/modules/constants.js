@@ -1,3 +1,5 @@
+import st_config from '@/config/config.js'
+
 export const business_category = [
   {key: 0, text: "모두선택"},
   {key: 1, text: "광업"},
@@ -317,6 +319,192 @@ export const user_sample = [
     address: '부산광역시 해운대구 센텀3로 20(우동) 48060',
     business_card: 'http://www.giftsum.com/rb/files/2015/11/09/62c0f173961e83f066672ad56436e077224740.jpg',
   },
+]
+
+export const curation_sample = [
+  {
+    type: 0,
+    contents: {
+      content_title: '스타트업 소개',
+      media_type: 1, // 0: image 1: video
+      media_url: st_config.oss_url + '/media/onoffmix_1080p.mp4',
+      media_url_extra: '/assets/about.jpg',
+      title: '온오프믹스',
+      description: ['모임에 대한 모든 것', '온오프믹스는 사람들간의 원활한 소통과 만남을 위해',
+        '쉽고 편리하게 모임을 위한 개설, 참여, 정보 등의', '모든 서비스를 제공하는 통합 솔루션입니다',
+        '공유의 가치를 실현할 수 있도록 온오프믹스가 함께합니다.'
+      ],
+      target_type: 0, //0: portfolio, 1: event 2: reserved
+      target_id: 3, // portfolio_id or event_id
+    }
+  },
+  {
+    type: 1,
+    contents: {
+      title: '#핀테크',
+      sub_title: '',
+      target_type: 0, //0: portfolio, 1: event 2: reserved
+      target_object_array: [
+        {
+          image: 'http://t1.daumcdn.net/brunch/service/user/lsb/image/YvomBG8Cz0S_XvibITy4LjtCnDk.jpg',
+          title: '<업체명>',
+          sub_title: '서비스, 비전, 캐치프레이즈를 표시합니다',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2020/08/1597051190050.png',
+          title: '컬처히어로',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: st_config.oss_url + '/media/stylec.png',
+          title: '스타일씨',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://sparkplus.co/wp-content/uploads/2020/07/home-main-2-1500x630.jpg',
+          title: '스파크플러스',
+          sub_title: '공유 오피스',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2018/01/2018-about-01-1.png',
+          title: '벤처스퀘어',
+          sub_title: '스타트업 전문 미디어',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+      ], // portfolio_id or event_id
+    }
+  },
+  {
+    type: 1,
+    contents: {
+      title: '#블록체인',
+      sub_title: '',
+      target_type: 0, //0: portfolio, 1: event 2: reserved
+      target_object_array: [
+        {
+          image: st_config.oss_url + '/media/stylec.png',
+          title: '스타일씨',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://sparkplus.co/wp-content/uploads/2020/07/home-main-2-1500x630.jpg',
+          title: '스파크플러스',
+          sub_title: '공유 오피스',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2018/01/2018-about-01-1.png',
+          title: '벤처스퀘어',
+          sub_title: '스타트업 전문 미디어',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'http://t1.daumcdn.net/brunch/service/user/lsb/image/YvomBG8Cz0S_XvibITy4LjtCnDk.jpg',
+          title: '<업체명>',
+          sub_title: '서비스, 비전, 캐치프레이즈를 표시합니다',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2020/08/1597051190050.png',
+          title: '컬처히어로',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: st_config.oss_url + '/media/stylec.png',
+          title: '스타일씨',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://sparkplus.co/wp-content/uploads/2020/07/home-main-2-1500x630.jpg',
+          title: '스파크플러스',
+          sub_title: '공유 오피스',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2018/01/2018-about-01-1.png',
+          title: '벤처스퀘어',
+          sub_title: '스타트업 전문 미디어',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: 'https://www.venturesquare.net/wp-content/uploads/2020/08/1597051190050.png',
+          title: '컬처히어로',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+        {
+          image: st_config.oss_url + '/media/stylec.png',
+          title: '스타일씨',
+          sub_title: '미디어커머스 스타트업',
+          target_type: 0, //0: portfolio, 1: event 2: reserved
+          target_id: 3, // portfolio_id or event_id
+        },
+      ], // portfolio_id or event_id
+    }
+  },
+  {
+    type: 2,
+    contents: {
+      title: 'Upcoming Round',
+      sub_title: '',
+      main_media_type: 1,
+      main_media_url: st_config.oss_url + '/media/curation_sample_test2.png',
+      target_type: 1,
+      target_id: 0,
+      sub_col_1: {
+        title: '404번째 라운드',
+        description: '"온라인 IR round로, 카카오 TV live채널을 통해 시청 가능합니다(채널명: 넥스트라운드/KDB NEXTROUND)"',
+        link: 'https://tv.kakao.com/search/channels?q=%EB%84%A5%EC%8A%A4%ED%8A%B8%EB%9D%BC%EC%9A%B4%EB%93%9C'
+      },
+      sub_col_2: {
+        target_type: 0, //0: portfolio, 1: event 2: reserved
+        target_object_array: [
+          {
+            image: st_config.oss_url + '/media/hauteworks.png',
+            title: '오트웍스',
+            sub_title: '마이크로 모빌리티 앱 서비스',
+            target_type: 0, //0: portfolio, 1: event 2: reserved
+            target_id: 3, // portfolio_id or event_id
+          },
+          {
+            image: st_config.oss_url + '/media/inpock.png',
+            title: '인포크',
+            sub_title: '인플루언서 커머스 컨시어지 서비스',
+            target_type: 0, //0: portfolio, 1: event 2: reserved
+            target_id: 3, // portfolio_id or event_id
+          },
+          {
+            image: st_config.oss_url + '/media/glorang.png',
+            title: '글로랑',
+            sub_title: '아시아 대표 온라인 학위수여 플랫폼',
+            target_type: 0, //0: portfolio, 1: event 2: reserved
+            target_id: 3, // portfolio_id or event_id
+          },
+        ], // portfolio_id or event_id
+      },
+    }
+  }
 ]
 
 export const event_sample = [

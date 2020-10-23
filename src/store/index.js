@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './modules/user'
 import portfolio from './modules/portfolio'
+import curation from './modules/curation'
 import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   plugins: [vuexLocal.plugin],
   modules: {
     user,
-    portfolio
+    portfolio,
+    curation
   }
 })

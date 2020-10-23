@@ -222,7 +222,7 @@
                       <v-img
                         class="card-img-top"
                         :src="post.image_url"
-                        lazy-src="/assets/lazyimg_portfolio.png"
+                        lazy-src="/nextround_front/assets/lazyimg_portfolio.png"
                         alt="Card image cap"
                         height="150"
                         min-height="50"

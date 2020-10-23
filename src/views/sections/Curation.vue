@@ -3,11 +3,10 @@
     <!-- <v-img
       :src="`https://corp.onoffmix.com/images/logo.png`"
       class="white--text bg-img-gradient"
-    > -->
+    >
     <video-background
         src="//localhost:8010/media/onoffmix_1080p.mp4"
         poster="//localhost:8080/nextround_front/assets/about.jpg"
-
         style="height: 100vh;"
         overlay="linear-gradient(to left, rgba(255, 255, 255, 0), rgba(0,0,0, 0.4) 50%, rgba(0, 0, 0, .8) 100%)"
     >
@@ -18,8 +17,9 @@
             <base-heading title="온오프믹스" />
             <base-body class="white--text">
               모임에 대한 모든 것.<br>
-              온오프믹스는 사람들간의 원활한 소통과 만남을 위해
-              쉽고 편리하게 모임을 위한 개설, 참여, 정보 등의 모든 서비스를 제공하는 통합 솔루션입니다.
+              온오프믹스는 사람들간의 원활한 소통과 만남을 위해<br>
+              쉽고 편리하게 모임을 위한 개설, 참여, 정보 등의 <br>
+              모든 서비스를 제공하는 통합 솔루션입니다.<br>
               공유의 가치를 실현할 수 있도록 온오프믹스가 함께합니다.
             </base-body>
             <v-btn
@@ -33,120 +33,137 @@
         </v-row>
 
       </v-container>
-    <!-- </v-img> -->
-    </video-background>
 
-    <v-container fluid class="mt-4 pa-0">
-      <v-row
-        :justify="`start`"
-        class="mt-0">
-        <v-col cols="12" >
-          <v-sheet
-            class="mx-0"
-            elevation="8"
-            color="black"
-          >
-            <base-heading class="pt-16 pl-16" title="#핀테크" />
-            <v-slide-group
-              v-model="model"
-              class="py-4 px-16"
-              active-class="success"
-              show-arrows
+    </video-background>
+    </v-img> -->
+    <div v-for="(item, index) in get_curation_detail">
+      <base-curation-full-section
+        v-if="item.type === 0"
+        :contents="item.contents"
+      />
+      <base-curation-object-list
+        v-if="item.type === 1"
+        :contents="item.contents"
+      />
+      <!-- <v-container fluid class="mt-4 pa-0">
+        <v-row
+          :justify="`start`"
+          class="mt-0">
+          <v-col cols="12" >
+            <v-sheet
+              class="mx-0"
+              elevation="8"
+              color="black"
             >
-              <v-slide-item
-                v-for="post in posts"
-                :key="post.id"
-                v-slot:default="{ active, toggle }"
+              <base-heading class="pt-16 pl-16" title="#핀테크" />
+              <v-slide-group
+                v-model="model"
+                class="py-4 px-16"
+                active-class="success"
+                show-arrows
               >
-                <v-card
-                  class="ma-4"
-                  width="150"
-                  height="200"
-                  :to="'/portfolio/' + post.id">
-                  <div class="card-body">
-                    <v-img
-                      class="card-img-top"
-                      :src="post.image_url"
-                      lazy-src="/assets/lazyimg_portfolio.png"
-                      alt="Card image cap"
-                      height="150"
-                      min-height="50"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-                    <h5 class="pa-2 card-title"><strong>{{ post.title }}</strong></h5>
-                  </div>
-                </v-card>
-              </v-slide-item>
-            </v-slide-group>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container fluid class="mt-4 pa-0">
-      <v-row
-        :justify="`start`"
-        class="mt-0">
-        <v-col cols="12" >
-          <v-sheet
-            class="mx-0"
-            elevation="8"
-            color="black"
-          >
-            <base-heading class="pt-16 pl-16" title="#블록체인" />
-            <v-slide-group
-              v-model="model"
-              class="py-4 px-0"
-              active-class="success"
-              show-arrows
+                <v-slide-item
+                  v-for="post in posts"
+                  :key="post.id"
+                  v-slot:default="{ active, toggle }"
+                >
+                  <v-card
+                    class="ma-4"
+                    width="150"
+                    height="200"
+                    :to="'/portfolio/' + post.id">
+                    <div class="card-body">
+                      <v-img
+                        class="card-img-top"
+                        :src="post.image_url"
+                        lazy-src="/assets/lazyimg_portfolio.png"
+                        alt="Card image cap"
+                        height="150"
+                        min-height="50"
+                      >
+                        <template v-slot:placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                          </v-row>
+                        </template>
+                      </v-img>
+                      <h5 class="pa-2 card-title"><strong>{{ post.title }}</strong></h5>
+                    </div>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container> -->
+      <!-- <base-curation-object-list
+        :contents="get_curation_detail[2].contents"
+      /> -->
+      <!-- <v-container fluid class="mt-4 pa-0">
+        <v-row
+          :justify="`start`"
+          class="mt-0">
+          <v-col cols="12" >
+            <v-sheet
+              class="mx-0"
+              elevation="8"
+              color="black"
             >
-              <v-slide-item
-                v-for="post in posts2"
-                :key="post.id"
-                v-slot:default="{ active, toggle }"
+              <base-heading class="pt-16 pl-16" title="#블록체인" />
+              <v-slide-group
+                v-model="model"
+                class="py-4 px-0"
+                active-class="success"
+                show-arrows
               >
-                <v-card
-                  class="ma-4"
-                  width="150"
-                  height="200"
-                  :to="'/portfolio/' + post.id">
-                  <div class="card-body">
-                    <v-img
-                      class="card-img-top"
-                      :src="post.image_url"
-                      lazy-src="/assets/lazyimg_portfolio.png"
-                      alt="Card image cap"
-                      height="150"
-                      min-height="50"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-                    <h5 class="pa-2 card-title"><strong>{{ post.title }}</strong></h5>
-                  </div>
-                </v-card>
-              </v-slide-item>
-            </v-slide-group>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container fluid class="mt-4 pa-0">
+                <v-slide-item
+                  v-for="post in posts2"
+                  :key="post.id"
+                  v-slot:default="{ active, toggle }"
+                >
+                  <v-card
+                    class="ma-4"
+                    width="150"
+                    height="200"
+                    :to="'/portfolio/' + post.id">
+                    <div class="card-body">
+                      <v-img
+                        class="card-img-top"
+                        :src="post.image_url"
+                        lazy-src="/assets/lazyimg_portfolio.png"
+                        alt="Card image cap"
+                        height="150"
+                        min-height="50"
+                      >
+                        <template v-slot:placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                          </v-row>
+                        </template>
+                      </v-img>
+                      <h5 class="pa-2 card-title"><strong>{{ post.title }}</strong></h5>
+                    </div>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container> -->
+      <base-curation-image-with-cards
+        v-if="item.type === 2"
+        :contents="item.contents"
+      />
+    </div>
+    <!-- <v-container fluid class="mt-4 pa-0">
       <base-heading class="pt-16 pl-16" title="Upcoming Round" />
       <v-row
         :justify="`start`"
@@ -158,7 +175,7 @@
         </v-col>
         <v-col cols="12"
           xs="12"
-          sm="12"
+          sm="6"
           md="6"
           lg="6"
           xl="6"
@@ -185,44 +202,13 @@
             </v-card-text>
             <v-card-actions class=" font-weight-bold">
               <v-spacer></v-spacer>
-              <v-btn text>자세히</v-btn>
+              <v-btn text>보러가기</v-btn>
             </v-card-actions>
-
-            <!-- <v-card-actions>
-              <v-list-item class="grow">
-                <v-list-item-avatar color="grey darken-3">
-                  <v-img
-                    class="elevation-6"
-                    alt=""
-                    src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                  ></v-img>
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title>Evan You</v-list-item-title>
-                </v-list-item-content>
-
-                <v-row
-                  align="center"
-                  justify="end"
-                >
-                  <v-icon class="mr-1">
-                    mdi-heart
-                  </v-icon>
-                  <span class="subheading mr-2">256</span>
-                  <span class="mr-1">·</span>
-                  <v-icon class="mr-1">
-                    mdi-share-variant
-                  </v-icon>
-                  <span class="subheading">45</span>
-                </v-row>
-              </v-list-item>
-            </v-card-actions> -->
           </v-card>
         </v-col>
         <v-col  cols="12"
           xs="12"
-          sm="12"
+          sm="6"
           md="6"
           lg="6"
           xl="6">
@@ -274,7 +260,7 @@
           </v-sheet>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
   </section>
 </template>
 <script>
@@ -288,6 +274,7 @@
   6. 이미지 배너(싱글 오브젝트)
   7. 이미지 배너 리스트 (리스트 오브젝트)
 */
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import {portfolios_sample,
     portfolio_detail_sample} from '@/store/modules/constants.js'
 
@@ -327,9 +314,27 @@
         this.posts = portfolio_detail_sample
         this.posts2 = create_post(15, portfolio_detail_sample)
       }
+      let payload = {}
+      this.$store.dispatch('curation/get_curation_detail', payload)
     },
     computed: {
+      ...mapGetters('curation', [
+        'get_curation_detail'
+      ]),
+      curation_detail_contents() {
+        if (this.get_curation_detail && this.get_curation_detail.length > 0) {
+          return this.get_curation_detail[0].contents
+        } else {
+          console.log('No curation detail:')
+          return null
+        }
+      },
     },
+    methods: {
+      // ...mapActions('curation', [
+      //   'get_curation_detail'
+      // ]),
+    }
   }
   // gradient="to left, rgba(255, 255, 255, 0) 50%, rgba(5, 11, 31, .8)"
 </script>

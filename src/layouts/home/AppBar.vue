@@ -3,10 +3,11 @@
     <v-app-bar
       id="home-app-bar"
       app
-      elevation="1"
+      elevation="0"
       height="80"
     >
-      <base-img
+      <v-spacer />
+      <!-- <base-img
         :src="require('@/assets/frog.png')"
         class="mr-3"
         contain
@@ -19,10 +20,7 @@
         contain
         max-width="128"
         width="100%"
-      />
-
-      <v-spacer />
-
+      /> -->
       <div>
         <v-tabs
           class="title-tab hidden-sm-and-down"
@@ -45,6 +43,7 @@
             v-if="get_authenticated"
             bottom
             right
+            :value="menu_value"
           >
             <template v-slot:activator="{ on, attrs }">
 
@@ -54,9 +53,11 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-list-item-avatar :style="`border: 1px solid #000000`">
+                <v-list-item-avatar :style="`border: 1px solid #FFFFFF`">
                   <v-img v-if="get_profile_image.length > 0" :src="get_profile_image"></v-img>
-                  <v-icon v-else>mdi-account</v-icon>
+                  <v-icon v-else
+                    color="white"
+                  >mdi-account</v-icon>
                 </v-list-item-avatar>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
@@ -77,12 +78,6 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <!-- <v-btn
-                  text
-                  @click=""
-                >
-                  LOG OUT
-                </v-btn> -->
                 <base-sign-out-btn/>
               </v-list-item>
             </v-list>
@@ -91,7 +86,7 @@
       </div>
 
       <v-app-bar-nav-icon
-        class="hidden-md-and-up"
+        class="hidden-md-and-up theme--dark"
         @click="drawer = !drawer"
       />
     </v-app-bar>
@@ -118,6 +113,7 @@
       mini: false,
       items: [
         'Home',
+        'Next Round',
         'Portfolio',
         'Event',
         // 'About',
@@ -125,6 +121,7 @@
         // 'Pro',
         'Signin',
       ],
+      menu_value: false,
       more: [
         'News', 'Maps', 'Books', 'Flights', 'Apps',
       ],
@@ -163,7 +160,10 @@
       ...mapActions('user', [
           'validation',
       ]),
-
+      listClickHandle() {
+        this.menu_value = false
+        console.log('menu_value:', this.menu_value)
+      }
     }
 
   }
@@ -171,7 +171,8 @@
 
 <style lang="sass">
   #home-app-bar
-    background-color: rgba(0,0,0,0.2)
+    // background-color: rgba(0,0,0,0.2)
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(0, 0, 0, .8) 100%)
     .v-tabs-slider
       max-width: 24px
       margin: 0 auto

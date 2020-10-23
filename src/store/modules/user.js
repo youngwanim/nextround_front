@@ -250,7 +250,11 @@ const actions = {
       (result) => {
         context.commit('set_user_business_card', result.data.upload_filename)
         context.dispatch('set_user', {param: {business_card: result.data.upload_filename},
-            cb_res: payload.cb_res, cb_error: payload.cb_error})
+            cb_res: (result) => {
+              if(payload.cb_res) payload.cb_res(result)
+              context.dispatch('validation')
+              router.replace('/')
+            }, cb_error: payload.cb_error})
       },
       payload.cb_error,
       true
@@ -268,7 +272,10 @@ const actions = {
       (result) => {
         context.commit('set_user_profile_image', result.data.upload_filename)
         context.dispatch('set_user', {param: {profile_image: result.data.upload_filename},
-            cb_res: payload.cb_res, cb_error: payload.cb_error})
+            cb_res: (result) => {
+              if(payload.cb_res) payload.cb_res(result)
+              router.replace('/')
+            }, cb_error: payload.cb_error})
       },
       payload.cb_error,
       true

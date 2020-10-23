@@ -8,7 +8,7 @@
         <v-img
           class="card-img-top"
           :src="image_url"
-          lazy-src="/assets/lazyimg_portfolio.png"
+          lazy-src="/nextround_front/assets/lazyimg_portfolio.png"
           alt="Card image cap"
           min-height="50"
           @load="handleLoadEvent"

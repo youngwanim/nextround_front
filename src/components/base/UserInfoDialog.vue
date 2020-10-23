@@ -251,6 +251,7 @@
 </template>
 
 <script>
+  import st_config from '@/config/config.js'
   import {mapGetters, mapMutations, mapActions} from 'vuex'
 
   export default {
@@ -268,7 +269,7 @@
     data() {
       return {
         snackbar: false,
-        oss_url: "//localhost:8010",
+        oss_url: st_config.oss_url,
         dialog: false,
         login_key: '',
         login_value: '*******',

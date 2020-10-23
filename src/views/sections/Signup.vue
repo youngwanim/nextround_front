@@ -441,7 +441,7 @@
             this.alert_el2_response_fail = true
           }
         }
-        this.$store.dispatch('user/upload_profile_image', payload)
+        this.$store.dispatch('user/upload_busicesscard_image', payload)
 
       },
       submitProfileImage() {
@@ -507,6 +507,14 @@
           }
           this.btn_el2_register = true
           this.$store.dispatch('user/signup', payload)
+        } else {
+          let target = this.$refs.form
+          let option = {
+            duration: 300,
+            offset: 0,
+            easing: 'easeInOutCubic'
+          }
+          this.$vuetify.goTo(target, option)
         }
         console.log('result=', result)
       },

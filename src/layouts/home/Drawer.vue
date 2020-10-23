@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     bottom
-    color="transparent"
     fixed
     height="auto"
     overlay-color="secondary"
@@ -99,7 +98,9 @@
 
   export default {
     name: 'HomeDrawer',
-
+    provide: {
+      theme: { isDark: false },
+    },
     props: {
       items: {
         type: Array,
