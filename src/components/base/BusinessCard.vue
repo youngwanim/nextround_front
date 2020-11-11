@@ -48,7 +48,6 @@
     },
     methods: {
       handleLoadEvent() {
-        console.log('image loaded:', this.image_url)
         this.$emit('loaded')
       },
       smartTrim(string, maxLength) {

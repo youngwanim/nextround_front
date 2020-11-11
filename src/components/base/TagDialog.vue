@@ -108,6 +108,9 @@
     computed: {
       ...mapGetters('portfolio', [
         'get_my_portfolio'
+      ]),
+      ...mapMutations('portfolio', [
+        'set_chip_selected_list'
       ])
     },
     methods: {

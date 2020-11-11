@@ -9,6 +9,7 @@
     <home-footer />
 
     <!-- <home-videointro /> -->
+    <home-modal />
   </v-app>
 </template>
 
@@ -22,6 +23,7 @@
       HomeVideointro: () => import('@/layouts/home/VideoIntro'),
       // HomeSystemBar: () => import('@/layouts/home/SystemBar'),
       HomeView: () => import('@/layouts/home/View'),
+      HomeModal: () => import('@/layouts/home/Modal')
     },
   }
 </script>

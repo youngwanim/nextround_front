@@ -28,7 +28,6 @@ const state = {
   },
   portfolio_tags: [],
   chip_list: [],
-  chip_selected_list: []
 }
 
 const getters = {
@@ -37,7 +36,13 @@ const getters = {
   get_portfolio_detail: state => state.portfolio_detail,
   get_my_portfolio: state => state.portfolio_mine,
   get_chip_list: state => state.chip_list,
-  get_chip_selected_list: state => state.chip_slected_list,
+  get_chip_selected_list: state => {
+    if ('business_category' in state.portfolio_mine) {
+      return state.portfolio_mine['business_category']
+    } else {
+      return []
+    }
+  },
   get_my_company_data: state => {
     if ('id' in state.portfolio_mine) {
       return state.portfolio_mine
@@ -56,7 +61,7 @@ const mutations = {
   set_my_portfolio_attr: (state, payload) => {
     let vue = new Vue({})
     state.portfolio_mine.open_id = vue.$cookies.get('openid')
-    //state.portfolio_mine.business_category = payload.business_category
+    state.portfolio_mine.business_category = payload.business_category
     state.portfolio_mine.content = {
       auth_type: payload.content.auth_type,
       title: payload.content.title,
@@ -87,7 +92,10 @@ const mutations = {
   set_chip_selected_list: (state, payload) => {
     if ('business_category' in state.portfolio_mine) {
       state.portfolio_mine['business_category'] = payload
+    } else {
+      state.portfolio_mine['business_category'] = payload
     }
+    console.log('store mutation/set_chip_selected_list:', state.portfolio_mine['business_category'])
   }
 }
 

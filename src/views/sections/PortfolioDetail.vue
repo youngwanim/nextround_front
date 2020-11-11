@@ -1,7 +1,7 @@
 <template>
   <section id="portfolio-detail">
       <v-container
-        class="px-4 py-12 black"
+        class="px-4 py-16 black"
         fluid
       >
         <v-responsive
@@ -200,7 +200,6 @@
       }
     },
     created() {
-      console.log('prop ID input: ', this.$route.params.id)
       if (Object.keys(this.info).length === 0) {
         let payload = {
           param: {id:this.$route.params.id},
@@ -208,7 +207,6 @@
             //this.info = this.get_portfolio_detail_on_interest
             this.info = result.data.portfolio.content
             this.tags = result.data.tags
-            console.log('pf detail info: ', this.info)
           },
           cb_error: (error) => {
             alter('포트폴리오 상세 페이지 로드에 실패했습니다. 잠시 후 다시 시도해주세요')
@@ -221,6 +219,9 @@
       this.$nextTick(() => {
         this.$redrawVueMasonry('containerID')
       })
+    },
+    updated() {
+      this.$redrawVueMasonry('containerID')
     },
     computed: {
       // ...mapGetters('portfolio', [

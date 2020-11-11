@@ -185,13 +185,13 @@ const actions = {
     } else {
       context.commit('set_user_empty')
       context.commit('set_authenticated', false)
-      context.commit('set_empty_portfolio')
+      context.commit('portfolio/set_empty_portfolio')
       vue.$cookies.remove('openid')
       vue.$cookies.remove('token')
       router.replace('/')
     }
   },
-  validation(context) {
+  validation(context, payload) {
     let vue = new Vue({})
 
     return api.async_call_callback('validation', {
@@ -202,6 +202,7 @@ const actions = {
         console.log('validation result: ', result)
         context.commit('set_authenticated', true)
         context.commit('set_user_info', result.data.user)
+        if (payload && payload.cb_res) payload.cb_res(result)
       }
     },(error) => {
       const err = error.response.data
@@ -212,6 +213,7 @@ const actions = {
       } else if(err.code === 500) {
         alert('시스템에 문제가 발생하였습니다. 관리자에게 문의 바랍니다. 010-XXXX-XXXX')
       }
+      if (payload && payload.cb_error) payload.cb_error(error)
     })
   },
   signup(context, payload) {

@@ -73,7 +73,7 @@
               <v-list-item>
                 <base-user-info-dialog/>
               </v-list-item>
-              <v-list-item>
+              <v-list-item v-if="get_user_type === 2">
                 <base-portfolio-edit-dialog/>
               </v-list-item>
               <v-divider></v-divider>

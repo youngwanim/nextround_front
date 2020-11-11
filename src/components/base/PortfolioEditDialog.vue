@@ -411,6 +411,7 @@
         },
         cb_res: (result) => {
           let pf_object = this.get_my_portfolio
+          console.log('pf_object :', pf_object)
           this.portfolio.homepage_url = pf_object.homepage_url
           this.portfolio.business_category = pf_object.business_category
 
@@ -438,7 +439,8 @@
     },
     computed: {
       ...mapGetters('portfolio', [
-        'get_my_portfolio'
+        'get_my_portfolio',
+        'get_chip_selected_list'
       ]),
       toolbarTitle() {
         if ( Object.keys(this.get_my_portfolio).length === 0) {
@@ -488,46 +490,17 @@
           ir_file: '',
         }
       },
-      mutatePortiflio() {
+      mutatePortfolio() {
         let payload = {
-          business_category: this.portfolio.business_category,
+          business_category: this.get_chip_selected_list,
           content: this.portfolio_content
         }
         console.log('tag_list:', this.portfolio.business_category)
         this.$store.commit('portfolio/set_my_portfolio_attr', payload)
       },
       submitPortfolio() {
-        this.mutatePortiflio()
-        //
-        // let portfolio = {
-        //   open_id: '',
-        //   business_category: this.tag_list
-        // }
-        // portfolio['content'] = {
-        //   auth_type: this.portfolio_content.auth_type,
-        //   title: this.portfolio_content.title,
-        //   sub_title: this.portfolio_content.sub_title,
-        //   image_url: this.portfolio_content.image_url,
-        //   image_list: this.portfolio_content.image_list,
-        //   description: this.portfolio_content.description,
-        //   product_auth_type: this.portfolio_content.product_auth_type,
-        //   product_title: this.portfolio_content.product_title,
-        //   product_sub_title: this.portfolio_content.product_sub_title,
-        //   product_image_list: this.portfolio_content.product_image_list,
-        //   product_introduce: this.portfolio_content.product_introduce,
-        //   team_auth_type: this.portfolio_content.team_auth_type,
-        //   team_title: this.portfolio_content.team_title,
-        //   team_sub_title: this.portfolio_content.team_sub_title,
-        //   team_image_list: this.portfolio_content.team_image_list,
-        //   team_introduce: this.portfolio_content.team_introduce,
-        //   ceo_auth_type: this.portfolio_content.ceo_auth_type,
-        //   ceo: this.portfolio_content.ceo,
-        //   ceo_sub_title: this.portfolio_content.ceo_sub_title,
-        //   ceo_image_list: this.portfolio_content.ceo_image_list,
-        //   ceo_introduce: this.portfolio_content.ceo_introduce,
-        //   ir_auth_type: this.portfolio_content.ir_auth_type,
-        //   ir_file: this.portfolio_content.ir_file
-        // }
+        this.mutatePortfolio()
+
         let payload = {
           param: null,
           cb_res: (result) => {

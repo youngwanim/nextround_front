@@ -33,6 +33,7 @@
             >
               <v-card
                 class="white grey--text"
+                ref="cardLeft"
                 flat
               >
                 <v-carousel
@@ -76,6 +77,7 @@
             >
               <v-card
                 class="white grey--text"
+                ref="cardRight"
                 flat
               >
                 <v-row
@@ -83,10 +85,12 @@
                   :justify="`center`"
                   class="font-weight-black grey--text pa-2 fill-height">
                   <!-- <v-col cols="12"> -->
-                    <span :class="`px-4 text-h4 font-weight-black`">{{title}}</span>
+                    <span :class="`px-4 text-h5 font-weight-black`">{{title}}</span>
                   <!-- </v-col> -->
                 </v-row>
-                <v-card-title v-if="sub_title && sub_title.length > 0">
+                <v-card-title v-if="sub_title && sub_title.length > 0"
+                  style="word-break:break-word"
+                >
                   {{sub_title}}
                 </v-card-title>
                 <v-card-text
@@ -119,9 +123,14 @@
       description: String,
       order_forward: Boolean,
     },
+    updated() {
+      // this.$nextTick(() => {
+        console.log('title:', this.title)
+        console.log('PF LeRi:', this.$refs.cardLeft.$el.clientHeight, this.$refs.cardRight.$el.clientHeight)
+      // })
+    },
     computed: {
       orderNumber() {
-        console.log(this.order_forward)
         if(this.order_forward) {
           return 1
         } else {

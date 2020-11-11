@@ -1,6 +1,11 @@
 // Imports
 import Vue from 'vue'
 import Router from 'vue-router'
+import api from '@/api/api.js'
+import st_config from '@/config/config.js'
+import VueCookies from 'vue-cookies'
+import store from '@/store'
+import language from '@/assets/language/ko.js'
 
 Vue.use(Router)
 
@@ -76,14 +81,15 @@ const router = new Router({
           component: () => import('@/views/pro/Index.vue'),
           meta: { src: require('@/assets/pro.jpg') },
         },
-        {
-          path: 'msgDialog',
-          name: 'msgDialog',
-          components : {
-            default: () => import('@/views/portfolio/detail.vue'),
-            // dialog: MsgDialog
-          }
-        },
+        // {
+        //   path: 'msg',
+        //   name: 'Msg',
+        //   components : {
+        //     dialog: () => import('@/views/dialog/index.vue'),
+        //     default: () => import('@/views/portfolio/Index.vue'),
+        //     // default: () => import('@/views/dialog/index.vue'),
+        //   }
+        // },
         {
           path: '*',
           name: 'FourOhFour',
@@ -97,38 +103,21 @@ const router = new Router({
 
 router.beforeEach(function (to, from, next) {
   if( to.matched.some((routeInfo) => { return routeInfo.meta.authRequired}) ) {
-    // if(process.env.NODE_ENV === 'production'){
-    //   let openid = vue.$cookies.get('openid'),
-    //     token = vue.$cookies.get('token'),
-    //     param = {
-    //       open_id: openid || '',
-    //       access_token: token || '',
-    //     }
-    //
-    //   if(openid === null || token === null) {
-    //     window.location.href = st_config.service_url + '/signin.html'
-    //     return
-    //   } else {
-    //     api.async_call('set_signin_validation', param).then((result) => {
-    //       if (result.data.code === 200) {
-    //         store.commit('user/set_user', result.data.user)
-    //         store.dispatch('receipts/set_default_receipts')
-    //         next()
-    //       } else {
-    //         alert(vue.$ml.get('ERROR.ERROR_UNAUTHORIZED'))
-    //       }
-    //     }).catch(() => {
-    //       alert(vue.$ml.get('ERROR.ERROR_UNAUTHORIZED'))
-    //     })
-    //   }
-    // } else {
-    //   vue.$cookies.set('locale', 'en', '', '/')
-    //   vue.$cookies.set('i18next', 'en', '', '/')
-    //   vue.$cookies.set('openid', 'B3E04A0D4C7E777191C33E62', '', '/')
-    //   vue.$cookies.set('token', 'A3CC543D772021F5605D153AD1CEB549EE6CAA4FEF7E3AF4', '', '/')
-    //   next()
-    // }
-    next()
+    // check validation
+    store.dispatch('user/validation', {
+      cb_res: (result) => {
+        // check user's auth_type and target instance's
+        // if not allowed, modal msg and state should be changed
+        next()
+      },
+      cb_error: (error) => {
+        // open dialog
+        console.log('user validation failed and go msg')
+        store.commit('common/set_modal_msg', language.COMMON.NEED_AUTH)
+        store.commit('common/set_modal_target', 'Signin')
+        store.commit('common/set_modal_on', true)
+      }
+    })
   } else {
     next()
   }
